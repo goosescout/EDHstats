@@ -6,7 +6,6 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "prebuild": "rimraf dist",
     "build": "pnpm run build:next && pnpm run build:nest",
     "build:next": "next build",
     "build:nest": "nest build --path ./tsconfig.server.json",
