@@ -19,5 +19,5 @@ export default function MagnifyingGlass() {
         </clipPath>
       </defs>
     </svg>
-  )
+  );
 }
