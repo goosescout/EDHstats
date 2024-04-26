@@ -1,0 +1,48 @@
+$black: #070613;
+$dark-gray: #141414;
+$gray: #E1E1E1;
+$light-gray: #F2F2F2;
+$white: #FFFFFF;
+
+$dark-blue: #2846F0;
+$light-blue: #40A2FF;
+$cyan: #A5EEFF;
+$magenta: #BA2FF5;
+$dark-purple: #5E40C1;
+$purple: #9400FF;
+$lavander: #DECBFF;
+
+$green: #07B738;
+$red: #F22727;
+
+$basic-transition: '0.25s ease-in-out';
+
+$sf-pro-display-bold: var(--sf-pro-display-bold);
+$sf-pro-display-medium: var(--sf-pro-display-medium);
+$fira-code: var(--fira-code);
+$outfit-light: var(--outfit-light);
+$outfit-regular: var(--outfit-regular);
+$outfit-medium: var(--outfit-medium);
+$outfit-semi-bold: var(--outfit-semi-bold);
+$outfit-bold: var(--outfit-bold);
+
+:export {
+  black: $black;
+  darkGray: $dark-gray;
+  gray: $gray;
+  lightGray: $light-gray;
+  white: $white;
+
+  darkBlue: $dark-blue;
+  lightBlue: $light-blue;
+  cyan: $cyan;
+  magenta: $magenta;
+  darkPurple: $dark-purple;
+  purple: $purple;
+  lavander: $lavander;
+
+  green: $green;
+  red: $red;
+
+  basicTransition: $basic-transition;
+}

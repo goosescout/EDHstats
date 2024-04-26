@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import Discord from '~/assets/icons/Discord';
 import Github from '~/assets/icons/Github';
 import Telegram from '~/assets/icons/Telegram';
 
 import Separator from '@/components/Separator';
-import colors, { basicTransition, colorsRGB } from '@/utils/colors';
-import { text14, text14Medium } from '@/utils/fonts';
+
+import styles from './styles.module.scss';
 
 export default function Footer() {
   const [loadTime, setLoadTime] = useState('');
@@ -19,17 +17,17 @@ export default function Footer() {
   }, []);
 
   return (
-    <FooterWrapper>
-      <Content>
-        <WizardsLegalInfo>
+    <div className={styles['footer-wrapepr']}>
+      <div className={styles['content']}>
+        <p className={styles['wizards-legal-info']}>
           Portions of EDHStats are unofficial Fan Content permitted under the
           Wizards of the Coast Fan Content Policy. The literal and graphical
           information presented on this site about Magic: The Gathering,
           including card images and mana symbols, is copyright Wizards of the
           Coast, LLC. EDHStats is not produced by or endorsed by Wizards of the
           Coast.
-        </WizardsLegalInfo>
-        <Links>
+        </p>
+        <p className={styles['links']}>
           EDHStats uses data gathered from outer recourses or APIs:{' '}
           <a href="https://scryfall.com/" target="_blank" rel="noreferrer">
             Scryfall
@@ -43,11 +41,11 @@ export default function Footer() {
             Moxfield
           </a>
           .
-        </Links>
-        <LoadTime>Page loaded in {loadTime} sec</LoadTime>
+        </p>
+        <p>Page loaded in {loadTime} sec</p>
 
-        <Contacts>
-          <p>Michael Gurevich © 2023</p>
+        <div className={styles['contacts']}>
+          <p>Michael Gurevich © 2024</p>
           <Separator />
           <a
             href="http://discordapp.com/users/363270817318174720"
@@ -66,75 +64,8 @@ export default function Footer() {
           >
             <Github />
           </a>
-        </Contacts>
-      </Content>
-    </FooterWrapper>
+        </div>
+      </div>
+    </div>
   );
 }
-
-const FooterWrapper = styled.footer`
-  background-color: ${colors.gray};
-  box-shadow: 0px 8px 20px 0px rgba(${colorsRGB.gray}, 0.15);
-
-  width: 100%;
-  margin-top: auto;
-`;
-
-const Content = styled.div`
-  max-width: 1440px;
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-sizing: border-box;
-  padding: 24px;
-
-  p {
-    margin: 0;
-    ${text14};
-    color: ${colors.black};
-    opacity: 0.6;
-  }
-`;
-
-const WizardsLegalInfo = styled.p`
-  max-width: 800px;
-`;
-
-const Links = styled.p`
-  > a {
-    color: ${colors.purple};
-    text-decoration: underline;
-    transition: color ${basicTransition};
-
-    &:hover {
-      color: ${colors.magenta};
-    }
-  }
-`;
-
-const LoadTime = styled.p``;
-
-const Contacts = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  svg path {
-    fill: ${colors.black};
-  }
-
-  > p {
-    ${text14Medium};
-    opacity: 1;
-  }
-
-  > a {
-    height: 18px;
-  }
-
-  > ${Separator} {
-    background-color: ${colors.black};
-  }
-`;
