@@ -19,30 +19,9 @@ $basic-transition: 0.25s ease-in-out;
 
 $sf-pro-display-bold: var(--sf-pro-display-bold);
 $sf-pro-display-medium: var(--sf-pro-display-medium);
-$fira-code: var(--fira-code);
+$fira-code: var(--fira-code-medium);
 $outfit-light: var(--outfit-light);
 $outfit-regular: var(--outfit-regular);
 $outfit-medium: var(--outfit-medium);
 $outfit-semi-bold: var(--outfit-semi-bold);
 $outfit-bold: var(--outfit-bold);
-
-:export {
-  black: $black;
-  darkGray: $dark-gray;
-  gray: $gray;
-  lightGray: $light-gray;
-  white: $white;
-
-  darkBlue: $dark-blue;
-  lightBlue: $light-blue;
-  cyan: $cyan;
-  magenta: $magenta;
-  darkPurple: $dark-purple;
-  purple: $purple;
-  lavander: $lavander;
-
-  green: $green;
-  red: $red;
-
-  basicTransition: $basic-transition;
-}
