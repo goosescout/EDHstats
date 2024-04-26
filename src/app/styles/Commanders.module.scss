@@ -1,0 +1,16 @@
+.commanders-page {
+  color: $black;
+
+  > h1 {
+    font-family: $sf-pro-display-bold;
+    font-size: 52px;
+    margin: 0 0 16px 0;
+  }
+
+  > p {
+    max-width: 700px;
+    font-family: $outfit-medium;
+    font-size: 16px;
+    margin: 0;
+  }
+}

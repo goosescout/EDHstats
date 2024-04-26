@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import HomeLink from '@/components/Navbar/HomeLink';
 
-import styles from './styles.module.scss';
+import styles from './Navbar.module.scss';
 
 type LinkDetails = {
   text: string;

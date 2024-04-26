@@ -2,7 +2,7 @@ import { ChangeEventHandler, useCallback } from 'react';
 
 import Input from '@/components/Input';
 
-import styles from './styles.module.scss';
+import styles from './RangeFilter.module.scss';
 
 type RangeFilterProps = {
   left: string;

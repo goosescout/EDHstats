@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
+import styles from './Line.module.scss';
 
 type LineProps = {
   className?: string;

@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, FC } from 'react';
 
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
+import styles from './Button.module.scss';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   'data-type'?: 'primary' | 'secondary';

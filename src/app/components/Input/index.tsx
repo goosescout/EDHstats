@@ -2,7 +2,7 @@ import { InputHTMLAttributes, forwardRef } from 'react';
 
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
+import styles from './Input.module.scss';
 
 const defaultProps = {
   spellCheck: false,

@@ -4,7 +4,7 @@ import MagnifyingGlass from '~/assets/icons/MagnifyingGlass';
 
 import Input from '@/components/Input';
 
-import styles from './styles.module.scss';
+import styles from './Searchbar.module.scss';
 
 type SearchbarProps = HTMLAttributes<HTMLInputElement> & {
   value: string;

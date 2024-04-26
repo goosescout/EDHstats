@@ -6,7 +6,7 @@ import Telegram from '~/assets/icons/Telegram';
 
 import Separator from '@/components/Separator';
 
-import styles from './styles.module.scss';
+import styles from './Footer.module.scss';
 
 export default function Footer() {
   const [loadTime, setLoadTime] = useState('');

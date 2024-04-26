@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 
-import styles from './styles.module.scss';
+import styles from './Layout.module.scss';
 
 type LayoutProps = {
   children: ReactNode;
