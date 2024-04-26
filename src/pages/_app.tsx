@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { AppProps } from 'next/app';
 
 import Layout from '@/components/Layout';
+import ReduxProvider from '@/components/ReduxProvider';
 import * as fonts from '@/styles/font';
 
 import '@/styles/global.scss';
@@ -22,9 +23,11 @@ const fontVariables = [
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <div id="root" className={clsx(fontVariables)}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ReduxProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ReduxProvider>
     </div>
   );
 };

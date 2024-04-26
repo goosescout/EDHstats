@@ -19,6 +19,17 @@ module.exports = {
     'plugin:import/typescript',
   ],
   ignorePatterns: ['dist', '.eslintrc.js'],
+  overrides: [
+    {
+      "files": ["src/app/store/slices/**/*.ts", "src/app/store/api/**/*.ts"],
+      "rules": {
+        "no-param-reassign": [
+          "warn",
+          { "props": true, "ignorePropertyModificationsFor": ["state"] }
+        ]
+      }
+    }
+  ],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
