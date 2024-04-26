@@ -3,8 +3,7 @@ import { FC } from 'react';
 import clsx from 'clsx';
 import { AppProps } from 'next/app';
 
-import Layout from '~/app/components/Layout';
-
+import Layout from '@/components/Layout';
 import * as fonts from '@/styles/font';
 
 import '@/styles/global.scss';
