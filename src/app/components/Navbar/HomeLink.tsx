@@ -1,19 +1,15 @@
 import Link from 'next/link';
-import styled from 'styled-components';
 
 import Logo from '~/assets/icons/Logo';
 
+import styles from './HomeLink.module.scss';
+
 const HomeLink = () => {
   return (
-    <StyledLink href="/">
+    <Link href="/" className={styles['home-link']}>
       <Logo />
-    </StyledLink>
+    </Link>
   );
 };
 
 export default HomeLink;
-
-const StyledLink = styled(Link)`
-  height: 50px;
-  margin-right: 6px;
-`;

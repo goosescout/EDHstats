@@ -32,7 +32,6 @@
     "react-dom": "^18.2.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "styled-components": "^6.1.8",
     "ua-parser-js": "^1.0.37"
   },
   "devDependencies": {
