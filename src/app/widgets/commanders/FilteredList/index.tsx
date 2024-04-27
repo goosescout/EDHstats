@@ -1,10 +1,9 @@
-import Search from './Filters/Search';
-
 import styles from './FilteredList.module.scss';
+import Filters from './Filters';
 
 const FilteredList = () => (
   <div className={styles.wrapper}>
-    <Search />
+    <Filters />
   </div>
 );
 
