@@ -14,7 +14,7 @@ export default function Layout({ children }: LayoutProps) {
     <>
       <Navbar />
 
-      <div className={styles['page-wrapper']}>{children}</div>
+      <div className={styles.wrapper}>{children}</div>
 
       <Footer />
     </>

@@ -32,7 +32,7 @@ export default function RangeFilter({
   );
 
   return (
-    <div className={styles['wrapper']}>
+    <div className={styles.wrapper}>
       <Input
         type="number"
         value={left}

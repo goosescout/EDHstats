@@ -19,11 +19,7 @@ export default function SortOrderSelector({
 
   if (state === 'none')
     return (
-      <div
-        className={styles['wrapper']}
-        data-state={state}
-        onClick={handleClick}
-      >
+      <div className={styles.wrapper} data-state={state} onClick={handleClick}>
         <span>{name}</span>
         <ArrowDown />
         <ArrowDown />
@@ -31,7 +27,7 @@ export default function SortOrderSelector({
     );
 
   return (
-    <div className={styles['wrapper']} data-state={state}>
+    <div className={styles.wrapper} data-state={state}>
       <span>{name}</span>
       <ArrowDown />
     </div>

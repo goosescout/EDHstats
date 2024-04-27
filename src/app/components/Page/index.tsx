@@ -10,7 +10,7 @@ type PageProps = {
 };
 
 const Page: FC<PageProps> = ({ className, children }) => (
-  <main className={clsx(className, styles['page'])}>{children}</main>
+  <main className={clsx(className, styles.page)}>{children}</main>
 );
 
 export default Page;

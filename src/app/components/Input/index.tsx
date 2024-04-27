@@ -18,7 +18,7 @@ const Input = forwardRef<
       ref={ref}
       {...defaultProps}
       {...props}
-      className={clsx(props.className, styles['input'])}
+      className={clsx(props.className, styles.input)}
     />
   );
 });

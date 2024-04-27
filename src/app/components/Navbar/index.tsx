@@ -26,15 +26,15 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <nav className={styles['nav-wrapper']}>
-      <div className={styles['content']}>
+    <nav className={styles.wrapper}>
+      <div className={styles.content}>
         <HomeLink />
         {links.map(({ text, href }) => (
           <Link
             key={text}
             href={href}
             className={clsx(
-              router.pathname === href && styles['active'],
+              router.pathname === href && styles.active,
               styles['navbar-link'],
             )}
           >

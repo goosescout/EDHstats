@@ -1,0 +1,18 @@
+.header {
+  display: grid;
+  gap: 8px;
+  padding: 0 20px;
+
+  font-family: sf-pro-display-medium;
+  color: $black;
+
+  > span {
+    opacity: 0.75;
+  }
+}
+
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

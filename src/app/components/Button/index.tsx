@@ -12,7 +12,7 @@ const Button: FC<ButtonProps> = ({ children, ...props }) => (
   <button
     data-type="primary"
     {...props}
-    className={clsx(props.className, styles['button'])}
+    className={clsx(props.className, styles.button)}
   >
     {children}
   </button>

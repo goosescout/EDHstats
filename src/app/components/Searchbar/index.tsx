@@ -18,13 +18,13 @@ const Searchbar: FC<SearchbarProps> = props => {
   }, []);
 
   return (
-    <div className={styles['search-wrapper']} onClick={handleClick}>
+    <div className={styles.wrapper} onClick={handleClick}>
       <MagnifyingGlass />
       <Input
         ref={inputRef}
         type="search"
         placeholder="Search..."
-        className={styles['search-input']}
+        className={styles.input}
         {...props}
       />
     </div>

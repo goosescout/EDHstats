@@ -12,7 +12,7 @@ type LineProps = {
 
 const Line: FC<LineProps> = ({ className, top, bottom }) => (
   <hr
-    className={clsx(className, styles['line'])}
+    className={clsx(className, styles.line)}
     style={{ marginTop: top ?? 0, marginBottom: bottom ?? 0 }}
   />
 );

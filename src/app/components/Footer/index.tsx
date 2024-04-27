@@ -17,8 +17,8 @@ export default function Footer() {
   }, []);
 
   return (
-    <div className={styles['footer-wrapepr']}>
-      <div className={styles['content']}>
+    <div className={styles.wrapper}>
+      <div className={styles.content}>
         <p className={styles['wizards-legal-info']}>
           Portions of EDHStats are unofficial Fan Content permitted under the
           Wizards of the Coast Fan Content Policy. The literal and graphical
@@ -27,7 +27,7 @@ export default function Footer() {
           Coast, LLC. EDHStats is not produced by or endorsed by Wizards of the
           Coast.
         </p>
-        <p className={styles['links']}>
+        <p className={styles.links}>
           EDHStats uses data gathered from outer recourses or APIs:{' '}
           <a href="https://scryfall.com/" target="_blank" rel="noreferrer">
             Scryfall
@@ -44,7 +44,7 @@ export default function Footer() {
         </p>
         <p>Page loaded in {loadTime} sec</p>
 
-        <div className={styles['contacts']}>
+        <div className={styles.contacts}>
           <p>Michael Gurevich © 2024</p>
           <Separator />
           <a
