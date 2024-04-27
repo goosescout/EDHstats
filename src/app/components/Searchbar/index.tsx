@@ -1,5 +1,7 @@
 import { FC, HTMLAttributes, useCallback, useRef } from 'react';
 
+import clsx from 'clsx';
+
 import MagnifyingGlass from '~/assets/icons/MagnifyingGlass';
 
 import Input from '@/components/Input';
@@ -24,8 +26,8 @@ const Searchbar: FC<SearchbarProps> = props => {
         ref={inputRef}
         type="search"
         placeholder="Search..."
-        className={styles.input}
         {...props}
+        className={clsx(props.className, styles.input)}
       />
     </div>
   );
