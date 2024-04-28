@@ -1,0 +1,26 @@
+.row {
+  background-color: $white;
+  border-radius: 20px;
+  border: 2px solid $gray;
+
+  height: 60px;
+  box-sizing: border-box;
+  padding: 0 18px;
+
+  display: grid;
+  align-items: center;
+  gap: 8px;
+
+  font-family: $sf-pro-display-medium;
+  font-size: 16px;
+  color: $black;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px 0px rgba($black, 0.1);
+  }
+}

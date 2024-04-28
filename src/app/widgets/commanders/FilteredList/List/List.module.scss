@@ -1,0 +1,29 @@
+.name-column {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.winrate-column {
+  &[data-positive="true"] {
+    color: $green;
+  }
+
+  &[data-positive="false"] {
+    color: $red;
+  }
+}
+
+.separator-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  > div:first-child {
+    height: 32px;
+    align-self: unset;
+  }
+}

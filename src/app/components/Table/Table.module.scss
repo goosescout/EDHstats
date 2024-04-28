@@ -3,7 +3,8 @@
   gap: 8px;
   padding: 0 20px;
 
-  font-family: sf-pro-display-medium;
+  font-family: $sf-pro-display-medium;
+  font-size: 12px;
   color: $black;
 
   > span {
