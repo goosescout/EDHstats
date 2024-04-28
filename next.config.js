@@ -6,4 +6,7 @@ module.exports = {
     includePaths: [path.join(__dirname, './app')],
     prependData: `@import "src/app/styles/variables.scss";`,
   },
+  serverRuntimeConfig: {
+    PROJECT_ROOT: __dirname,
+  },
 };

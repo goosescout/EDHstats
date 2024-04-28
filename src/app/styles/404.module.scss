@@ -1,0 +1,13 @@
+.not-found-page {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > p {
+    margin: 0;
+    font-family: $outfit-medium;
+    font-size: 20px;
+  }
+}
