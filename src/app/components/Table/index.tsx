@@ -1,6 +1,5 @@
 import { useRef, ReactNode } from 'react';
 
-import clsx from 'clsx';
 import { ViewportList, ViewportListRef } from 'react-viewport-list';
 
 import SortOrderSelector from './SortOrderSelector';
