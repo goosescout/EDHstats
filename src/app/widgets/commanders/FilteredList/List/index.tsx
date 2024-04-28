@@ -23,7 +23,7 @@ const columns: {
 ];
 
 const commanders = [
-  'Tymna, the Weaver // Kraum, Ludevic’s Opus',
+  'Tymna, the Weaver',
   'Tevesh Szat, Doom of Fools // Kraum, Ludevic’s Opus',
   'Godo, Bandit Warlord',
   'Kinnan, Bonder’s Prodigy',
@@ -111,7 +111,11 @@ const List = () => {
     [],
   );
 
-  return <Table columns={columns}>{rows}</Table>;
+  return (
+    <Table className={styles.table} columns={columns}>
+      {rows}
+    </Table>
+  );
 };
 
 const WithTableDivider = ({ children }: { children: ReactNode }) => (

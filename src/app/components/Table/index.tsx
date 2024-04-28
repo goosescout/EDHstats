@@ -17,13 +17,13 @@ type TableProps = {
 export default function Table({
   columns,
   showHeader = true,
-  className,
+  className = '',
   children,
 }: TableProps) {
   const listRef = useRef<ViewportListRef>(null);
 
   return (
-    <div className={clsx(className)}>
+    <div className={className}>
       {showHeader && (
         <div
           className={styles.header}
