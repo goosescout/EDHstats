@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-family: $outfit-medium;
+  font-size: 16px;
+  color: $black;
+
+  > input {
+    width: 100px;
+  }
+}

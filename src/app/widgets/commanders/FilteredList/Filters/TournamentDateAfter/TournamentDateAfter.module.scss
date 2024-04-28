@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  font-family: $outfit-medium;
+  font-size: 16px;
+
+  > input {
+    width: 132px;
+
+    ::selection {
+      background-color: $purple;
+    }
+  }
+}

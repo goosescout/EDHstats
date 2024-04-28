@@ -4,13 +4,13 @@ export interface IFiltersSlice {
   // Commander-specific filters
   search: string;
   mana: ManaT[];
-  winrate: [number, number];
-  decks: [number, number | undefined];
-  autoincludes: [number, number | undefined];
-  uniqueCards: [number, number | undefined];
+  winrate: [string, string];
+  decks: [string, string];
+  autoincludes: [string, string];
+  uniqueCards: [string, string];
 
   // Tournament-specific filters
   dateAfter: number; // timestamp
-  size: [number, number | undefined];
-  topCut?: number;
+  size: [string, string];
+  topCut: string;
 }

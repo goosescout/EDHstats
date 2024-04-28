@@ -7,13 +7,13 @@ import { ManaT } from '@/utils/types';
 const initialState: IFiltersSlice = {
   search: '',
   mana: [],
-  winrate: [0, 100],
-  decks: [1, undefined],
-  autoincludes: [0, undefined],
-  uniqueCards: [0, undefined],
+  winrate: ['0', '100'],
+  decks: ['1', ''],
+  autoincludes: ['0', ''],
+  uniqueCards: ['0', ''],
   dateAfter: DateTime.local().minus({ years: 1 }).toSeconds(),
-  size: [64, undefined],
-  topCut: undefined,
+  size: ['64', ''],
+  topCut: '',
 };
 
 const filtersSlice = createSlice({
@@ -28,28 +28,19 @@ const filtersSlice = createSlice({
       state.mana = payload;
     },
 
-    setWinrate: (state, { payload }: PayloadAction<[number, number]>) => {
+    setWinrate: (state, { payload }: PayloadAction<[string, string]>) => {
       state.winrate = payload;
     },
 
-    setDecks: (
-      state,
-      { payload }: PayloadAction<[number, number | undefined]>,
-    ) => {
+    setDecks: (state, { payload }: PayloadAction<[string, string]>) => {
       state.decks = payload;
     },
 
-    setAutoincludes: (
-      state,
-      { payload }: PayloadAction<[number, number | undefined]>,
-    ) => {
+    setAutoincludes: (state, { payload }: PayloadAction<[string, string]>) => {
       state.autoincludes = payload;
     },
 
-    setUniqueCards: (
-      state,
-      { payload }: PayloadAction<[number, number | undefined]>,
-    ) => {
+    setUniqueCards: (state, { payload }: PayloadAction<[string, string]>) => {
       state.uniqueCards = payload;
     },
 
@@ -59,12 +50,12 @@ const filtersSlice = createSlice({
 
     setTournamentSize: (
       state,
-      { payload }: PayloadAction<[number, number | undefined]>,
+      { payload }: PayloadAction<[string, string]>,
     ) => {
       state.size = payload;
     },
 
-    setTopCut: (state, { payload }: PayloadAction<number | undefined>) => {
+    setTopCut: (state, { payload }: PayloadAction<string>) => {
       state.topCut = payload;
     },
 

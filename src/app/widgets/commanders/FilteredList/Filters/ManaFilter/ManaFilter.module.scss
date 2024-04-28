@@ -1,0 +1,21 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  > button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+
+    padding: 0;
+    width: 40px;
+    height: 40px;
+
+    transition: opacity $basic-transition;
+
+    &[data-active='false'] {
+      opacity: 0.5;
+    }
+  }
+}
