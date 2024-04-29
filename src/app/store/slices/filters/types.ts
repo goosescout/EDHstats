@@ -1,4 +1,4 @@
-import { ManaT } from '@/utils/types';
+import { ManaT } from '@app/utils/types';
 
 export interface IFiltersSlice {
   // Commander-specific filters

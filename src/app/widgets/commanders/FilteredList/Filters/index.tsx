@@ -1,9 +1,9 @@
 import { useCallback, MouseEventHandler } from 'react';
 
-import Button from '@/components/Button';
-import Line from '@/components/Line';
-import { useAppDispatch } from '@/store';
-import { clearFilters } from '@/store/slices/filters';
+import Button from '@app/components/Button';
+import Line from '@app/components/Line';
+import { useAppDispatch } from '@app/store';
+import { clearFilters } from '@app/store/slices/filters';
 
 import Autoincludes from './Autoincludes';
 import Decks from './Decks';

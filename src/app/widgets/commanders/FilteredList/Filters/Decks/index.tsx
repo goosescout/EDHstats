@@ -1,6 +1,6 @@
-import RangeFilter from '@/components/RangeFilter';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { setDecks } from '@/store/slices/filters';
+import RangeFilter from '@app/components/RangeFilter';
+import { useAppDispatch, useAppSelector } from '@app/store';
+import { setDecks } from '@app/store/slices/filters';
 
 const Decks = () => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
-import RangeFilter from '@/components/RangeFilter';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { setAutoincludes } from '@/store/slices/filters';
+import RangeFilter from '@app/components/RangeFilter';
+import { useAppDispatch, useAppSelector } from '@app/store';
+import { setAutoincludes } from '@app/store/slices/filters';
 
 const Autoincludes = () => {
   const dispatch = useAppDispatch();

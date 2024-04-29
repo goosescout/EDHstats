@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 
-import { Column } from '@/components/Table/types';
+import { Column } from '@app/components/Table/types';
 
 import styles from './Row.module.scss';
 

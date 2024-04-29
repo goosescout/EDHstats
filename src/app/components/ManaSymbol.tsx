@@ -52,7 +52,7 @@ import ManaX from '~/assets/icons/mana/ManaX';
 import ManaY from '~/assets/icons/mana/ManaY';
 import ManaZ from '~/assets/icons/mana/ManaZ';
 
-import { ManaT } from '@/utils/types';
+import { ManaT } from '@app/utils/types';
 
 const StringToComponent: Record<
   string,

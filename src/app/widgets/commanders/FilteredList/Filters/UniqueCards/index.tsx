@@ -1,6 +1,6 @@
-import RangeFilter from '@/components/RangeFilter';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { setUniqueCards } from '@/store/slices/filters';
+import RangeFilter from '@app/components/RangeFilter';
+import { useAppDispatch, useAppSelector } from '@app/store';
+import { setUniqueCards } from '@app/store/slices/filters';
 
 const UniqueCards = () => {
   const dispatch = useAppDispatch();

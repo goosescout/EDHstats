@@ -1,7 +1,7 @@
-import ManaSymbol from '@/components/ManaSymbol';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { setMana } from '@/store/slices/filters';
-import { ManaT } from '@/utils/types';
+import ManaSymbol from '@app/components/ManaSymbol';
+import { useAppDispatch, useAppSelector } from '@app/store';
+import { setMana } from '@app/store/slices/filters';
+import { ManaT } from '@app/utils/types';
 
 import styles from './ManaFilter.module.scss';
 

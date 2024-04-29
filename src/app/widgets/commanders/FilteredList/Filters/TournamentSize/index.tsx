@@ -1,6 +1,6 @@
-import RangeFilter from '@/components/RangeFilter';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { setTournamentSize } from '@/store/slices/filters';
+import RangeFilter from '@app/components/RangeFilter';
+import { useAppDispatch, useAppSelector } from '@app/store';
+import { setTournamentSize } from '@app/store/slices/filters';
 
 export default function TournamentSize() {
   const dispatch = useAppDispatch();

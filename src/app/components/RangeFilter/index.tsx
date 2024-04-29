@@ -1,6 +1,6 @@
 import { ChangeEventHandler, useCallback } from 'react';
 
-import Input from '@/components/Input';
+import Input from '@app/components/Input';
 
 import styles from './RangeFilter.module.scss';
 

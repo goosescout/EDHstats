@@ -1,6 +1,6 @@
-import RangeFilter from '@/components/RangeFilter';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { setWinrate } from '@/store/slices/filters';
+import RangeFilter from '@app/components/RangeFilter';
+import { useAppDispatch, useAppSelector } from '@app/store';
+import { setWinrate } from '@app/store/slices/filters';
 
 const Winrate = () => {
   const dispatch = useAppDispatch();

@@ -2,8 +2,8 @@ import { FC, ReactNode } from 'react';
 
 import Head from 'next/head';
 
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import Footer from '@app/components/Footer';
+import Navbar from '@app/components/Navbar';
 
 import styles from './Layout.module.scss';
 

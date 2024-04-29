@@ -3,9 +3,9 @@ import { ChangeEventHandler } from 'react';
 import { DateTime } from 'luxon';
 import { useDispatch } from 'react-redux';
 
-import Input from '@/components/Input';
-import { useAppSelector } from '@/store';
-import { setTournamentDateAfter } from '@/store/slices/filters';
+import Input from '@app/components/Input';
+import { useAppSelector } from '@app/store';
+import { setTournamentDateAfter } from '@app/store/slices/filters';
 
 import styles from './TournamentDateAfter.module.scss';
 

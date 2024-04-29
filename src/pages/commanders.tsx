@@ -2,11 +2,11 @@ import { FC } from 'react';
 
 import { GetServerSideProps } from 'next';
 
-import Page from '@/components/Page';
-import styles from '@/styles/Commanders.module.scss';
-import parseBaseContext from '@/utils/parseBaseContext';
-import { BasePageProps } from '@/utils/types';
-import FilteredList from '@/widgets/commanders/FilteredList';
+import Page from '@app/components/Page';
+import styles from '@app/styles/Commanders.module.scss';
+import parseBaseContext from '@app/utils/parseBaseContext';
+import { BasePageProps } from '@app/utils/types';
+import FilteredList from '@app/widgets/commanders/FilteredList';
 
 type CommandersProps = BasePageProps;
 

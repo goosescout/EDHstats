@@ -4,7 +4,7 @@ import Discord from '~/assets/icons/Discord';
 import Github from '~/assets/icons/Github';
 import Telegram from '~/assets/icons/Telegram';
 
-import Separator from '@/components/Separator';
+import Separator from '@app/components/Separator';
 
 import styles from './Footer.module.scss';
 

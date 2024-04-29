@@ -1,6 +1,6 @@
-import Searchbar from '@/components/Searchbar';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { setSearch } from '@/store/slices/filters';
+import Searchbar from '@app/components/Searchbar';
+import { useAppDispatch, useAppSelector } from '@app/store';
+import { setSearch } from '@app/store/slices/filters';
 
 import styles from './Search.module.scss';
 

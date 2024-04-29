@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import MagnifyingGlass from '~/assets/icons/MagnifyingGlass';
 
-import Input from '@/components/Input';
+import Input from '@app/components/Input';
 
 import styles from './Searchbar.module.scss';
 

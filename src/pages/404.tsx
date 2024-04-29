@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import Page from '~/app/components/Page';
 
-import styles from '@/styles/404.module.scss';
+import styles from '@app/styles/404.module.scss';
 
 const NotFound = () => (
   <Page className={styles['not-found-page']}>

@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from 'react';
 
-import Separator from '@/components/Separator';
-import Table from '@/components/Table';
+import Separator from '@app/components/Separator';
+import Table from '@app/components/Table';
 
 import styles from './List.module.scss';
 import ManaContainer from './ManaContainer';

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import HomeLink from '@/components/Navbar/HomeLink';
+import HomeLink from '@app/components/Navbar/HomeLink';
 
 import styles from './Navbar.module.scss';
 

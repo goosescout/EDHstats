@@ -3,11 +3,11 @@ import { FC } from 'react';
 import clsx from 'clsx';
 import { AppProps } from 'next/app';
 
-import Layout from '@/components/Layout';
-import ReduxProvider from '@/components/ReduxProvider';
-import * as fonts from '@/styles/font';
+import Layout from '@app/components/Layout';
+import ReduxProvider from '@app/components/ReduxProvider';
+import * as fonts from '@app/styles/font';
 
-import '@/styles/global.scss';
+import '@app/styles/global.scss';
 
 const fontVariables = [
   fonts.sfProDisplayBold.variable,

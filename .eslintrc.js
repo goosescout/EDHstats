@@ -73,7 +73,12 @@ module.exports = {
             'position': 'before'
           },
           {
-            'pattern': '@/**',
+            'pattern': '@server/**',
+            'group': 'internal',
+            'position': 'before'
+          },
+          {
+            'pattern': '@app/**',
             'group': 'internal',
             'position': 'before'
           },

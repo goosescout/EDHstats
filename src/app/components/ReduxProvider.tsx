@@ -3,8 +3,8 @@ import { useEffect, useMemo } from 'react';
 
 import { Provider } from 'react-redux';
 
-import { watchMedia } from '@/store/external';
-import { makeReduxStore, RootState } from '@/store/store';
+import { watchMedia } from '@app/store/external';
+import { makeReduxStore, RootState } from '@app/store/store';
 
 interface IReduxProviderProps {
   children: React.ReactNode;

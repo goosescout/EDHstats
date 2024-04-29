@@ -1,4 +1,4 @@
-import { subscribeMedia } from '@/utils/mediaQuery';
+import { subscribeMedia } from '@app/utils/mediaQuery';
 
 import { setMedia } from './slices/common';
 

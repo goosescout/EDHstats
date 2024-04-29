@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Card {
+  id       Int    @id @default(autoincrement())
+  name     String
+  manacost String
+  decks    Deck[]
+}
+
+model Deck {
+  id    Int    @id @default(autoincrement())
+  cards Card[]
+
+  wins           Int
+  losses         Int
+  draws          Int
+  place          Int
+  tournamentSize Int
+  date           DateTime
+  price          Float
+
+  commander   Commander @relation(fields: [commanderId], references: [id])
+  commanderId Int
+}
+
+model Commander {
+  id       Int    @id @default(autoincrement())
+  name     String
+  identity String
+  decks    Deck[]
+}

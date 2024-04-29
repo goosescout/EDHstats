@@ -1,8 +1,8 @@
 import { ChangeEventHandler } from 'react';
 
-import Input from '@/components/Input';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { setTopCut } from '@/store/slices/filters';
+import Input from '@app/components/Input';
+import { useAppDispatch, useAppSelector } from '@app/store';
+import { setTopCut } from '@app/store/slices/filters';
 
 import styles from './TopCut.module.scss';
 

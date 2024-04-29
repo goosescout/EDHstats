@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { ICommonSlice } from '@/store/slices/common/types';
-import { MediaT, queryMedia } from '@/utils/mediaQuery';
+import { ICommonSlice } from '@app/store/slices/common/types';
+import { MediaT, queryMedia } from '@app/utils/mediaQuery';
 
 const initialState: ICommonSlice = {
   media: queryMedia(),

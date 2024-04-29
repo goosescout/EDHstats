@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
 
-import { IFiltersSlice } from '@/store/slices/filters/types';
-import { ManaT } from '@/utils/types';
+import { IFiltersSlice } from '@app/store/slices/filters/types';
+import { ManaT } from '@app/utils/types';
 
 const initialState: IFiltersSlice = {
   search: '',

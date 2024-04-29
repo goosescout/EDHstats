@@ -1,5 +1,5 @@
-import ManaSymbol from '@/components/ManaSymbol';
-import { ManaT } from '@/utils/types';
+import ManaSymbol from '@app/components/ManaSymbol';
+import { ManaT } from '@app/utils/types';
 
 import styles from './ManaContainer.module.scss';
 
