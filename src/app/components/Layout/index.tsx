@@ -1,5 +1,7 @@
 import { FC, ReactNode } from 'react';
 
+import Head from 'next/head';
+
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 
@@ -13,6 +15,10 @@ type LayoutProps = {
 const Layout: FC<LayoutProps> = ({ serverRenderTime, children }) => {
   return (
     <>
+      <Head>
+        <title>EDHstats</title>
+      </Head>
+
       <Navbar />
 
       <div className={styles.wrapper}>{children}</div>
