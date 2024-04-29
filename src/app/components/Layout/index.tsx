@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
@@ -6,17 +6,20 @@ import Navbar from '@/components/Navbar';
 import styles from './Layout.module.scss';
 
 type LayoutProps = {
+  serverRenderTime?: number;
   children: ReactNode;
 };
 
-export default function Layout({ children }: LayoutProps) {
+const Layout: FC<LayoutProps> = ({ serverRenderTime, children }) => {
   return (
     <>
       <Navbar />
 
       <div className={styles.wrapper}>{children}</div>
 
-      <Footer />
+      <Footer serverRenderTime={serverRenderTime} />
     </>
   );
-}
+};
+
+export default Layout;

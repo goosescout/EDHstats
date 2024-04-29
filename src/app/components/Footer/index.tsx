@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import Discord from '~/assets/icons/Discord';
 import Github from '~/assets/icons/Github';
@@ -8,7 +8,11 @@ import Separator from '@/components/Separator';
 
 import styles from './Footer.module.scss';
 
-export default function Footer() {
+type FooterProps = {
+  serverRenderTime?: number;
+};
+
+const Footer: FC<FooterProps> = ({ serverRenderTime }) => {
   const [loadTime, setLoadTime] = useState('');
 
   useEffect(() => {
@@ -42,7 +46,13 @@ export default function Footer() {
           </a>
           .
         </p>
-        <p>Page loaded in {loadTime} sec</p>
+        <p>
+          Page loaded in{' '}
+          {serverRenderTime
+            ? `${serverRenderTime} sec (server) + ${loadTime} sec
+          (client)`
+            : `${loadTime} sec`}
+        </p>
 
         <div className={styles.contacts}>
           <p>Michael Gurevich © 2024</p>
@@ -68,4 +78,6 @@ export default function Footer() {
       </div>
     </div>
   );
-}
+};
+
+export default Footer;

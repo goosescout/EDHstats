@@ -24,7 +24,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <div id="root" className={clsx(fontVariables)}>
       <ReduxProvider>
-        <Layout>
+        <Layout serverRenderTime={pageProps?.serverRenderTime}>
           <Component {...pageProps} />
         </Layout>
       </ReduxProvider>

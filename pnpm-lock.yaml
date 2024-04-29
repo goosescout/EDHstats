@@ -112,9 +112,6 @@ devDependencies:
   eslint-plugin-react-hooks:
     specifier: ^4.6.0
     version: 4.6.0(eslint@8.57.0)
-  eslint-plugin-react-refresh:
-    specifier: ^0.4.6
-    version: 0.4.6(eslint@8.57.0)
   jest:
     specifier: ^29.5.0
     version: 29.7.0(@types/node@20.12.7)(ts-node@10.9.2)
@@ -2993,14 +2990,6 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
-    dependencies:
-      eslint: 8.57.0
-    dev: true
-
-  /eslint-plugin-react-refresh@0.4.6(eslint@8.57.0):
-    resolution: {integrity: sha512-NjGXdm7zgcKRkKMua34qVO9doI7VOxZ6ancSvBELJSSoX97jyndXcSoa8XBh69JoB31dNz3EEzlMcizZl7LaMA==}
-    peerDependencies:
-      eslint: '>=7'
     dependencies:
       eslint: 8.57.0
     dev: true

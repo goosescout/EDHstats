@@ -10,7 +10,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['react-refresh', 'react', '@typescript-eslint', 'import'],
+  plugins: ['react', '@typescript-eslint', 'import'],
   extends: [
     'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
@@ -40,10 +40,6 @@ module.exports = {
     'camelcase': [
       'error',
       { 'properties': 'never', 'ignoreDestructuring': true }
-    ],
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
     ],
     '@typescript-eslint/no-unused-vars': [
       'warn',
