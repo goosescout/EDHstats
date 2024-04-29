@@ -1,6 +1,6 @@
 {
-  "short_name": "EDHStats",
-  "name": "EDHStats",
+  "short_name": "EDHstats",
+  "name": "EDHstats",
   "description": "Increase your winrate with stats from thousands of cEDH decks and games",
   "icons": [
     {

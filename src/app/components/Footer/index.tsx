@@ -24,15 +24,15 @@ const Footer: FC<FooterProps> = ({ serverRenderTime }) => {
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <p className={styles['wizards-legal-info']}>
-          Portions of EDHStats are unofficial Fan Content permitted under the
+          Portions of EDHstats are unofficial Fan Content permitted under the
           Wizards of the Coast Fan Content Policy. The literal and graphical
           information presented on this site about Magic: The Gathering,
           including card images and mana symbols, is copyright Wizards of the
-          Coast, LLC. EDHStats is not produced by or endorsed by Wizards of the
+          Coast, LLC. EDHstats is not produced by or endorsed by Wizards of the
           Coast.
         </p>
         <p className={styles.links}>
-          EDHStats uses data gathered from outer recourses or APIs:{' '}
+          EDHstats uses data gathered from outer recourses or APIs:{' '}
           <a href="https://scryfall.com/" target="_blank" rel="noreferrer">
             Scryfall
           </a>

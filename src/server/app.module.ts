@@ -3,10 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { RenderModule } from 'nest-next';
 import Next from 'next';
 
-import { PrismaService } from '~/server/infrastructure/database/prisma.service';
-
-import { AppController } from '@server/app.controller';
-import { AppService } from '@server/app.service';
+import { RenderController } from '@server/application/controllers/render.controller';
+import { CommandersModule } from '@server/domain/commanders/commanders.module';
 
 @Module({
   imports: [
@@ -17,8 +15,8 @@ import { AppService } from '@server/app.service';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    CommandersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
+  controllers: [RenderController],
 })
 export class AppModule {}
