@@ -135,17 +135,16 @@ const List = () => {
             </span>
           </WithTableDivider>
         </Row>
-      )),
+      )) ?? [],
     [columns, filteredData],
   );
-
-  if (!rows) return null;
 
   return (
     <Table
       className={clsx(styles.table, isFetching && styles.loading)}
       columns={columns}
       onSort={handleSort}
+      emptyMessage="No commanders were found. Try changing the filters."
     >
       {rows}
     </Table>

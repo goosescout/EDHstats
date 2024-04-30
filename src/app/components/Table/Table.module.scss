@@ -17,3 +17,12 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.empty {
+  margin-top: 20px;
+
+  text-align: center;
+  font-family: $sf-pro-display-medium;
+  font-size: 16px;
+  color: $black;
+}

@@ -12,6 +12,7 @@ type TableProps = {
   onSort?: (name: string, state: 'asc' | 'desc' | 'none') => void;
   className?: string;
   children: ReactNode[];
+  emptyMessage?: string;
 };
 
 const Table = ({
@@ -20,6 +21,7 @@ const Table = ({
   onSort,
   className = '',
   children,
+  emptyMessage,
 }: TableProps) => {
   const listRef = useRef<ViewportListRef>(null);
 
@@ -50,15 +52,19 @@ const Table = ({
       )}
 
       <div className={styles['list-wrapper']}>
-        <ViewportList
-          items={children}
-          itemMargin={10}
-          initialPrerender={15}
-          overscan={15}
-          ref={listRef}
-        >
-          {item => item}
-        </ViewportList>
+        {children.length ? (
+          <ViewportList
+            items={children}
+            itemMargin={10}
+            initialPrerender={15}
+            overscan={15}
+            ref={listRef}
+          >
+            {item => item}
+          </ViewportList>
+        ) : (
+          <span className={styles.empty}>{emptyMessage}</span>
+        )}
       </div>
     </div>
   );
