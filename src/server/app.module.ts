@@ -1,3 +1,4 @@
+import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -9,6 +10,9 @@ import { CommandersModule } from '@server/domain/commanders/commanders.module';
 
 @Module({
   imports: [
+    CacheModule.register({
+      isGlobal: true,
+    }),
     RenderModule.forRootAsync(
       Next({ dev: process.env.NODE_ENV !== 'production' }),
       { passthrough404: true, viewsDir: null },
