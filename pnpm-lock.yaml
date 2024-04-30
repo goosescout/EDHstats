@@ -56,6 +56,9 @@ dependencies:
   next:
     specifier: '=13.4.2'
     version: 13.4.2(@babel/core@7.24.4)(react-dom@18.2.0)(react@18.2.0)(sass@1.75.0)
+  next-redux-wrapper:
+    specifier: ^8.1.0
+    version: 8.1.0(next@13.4.2)(react-redux@9.1.1)(react@18.2.0)
   pg:
     specifier: ^8.11.5
     version: 8.11.5
@@ -5074,6 +5077,18 @@ packages:
       '@nestjs/core': 10.3.8(@nestjs/common@10.3.8)(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       next: 13.4.2(@babel/core@7.24.4)(react-dom@18.2.0)(react@18.2.0)(sass@1.75.0)
       rxjs: 7.8.1
+    dev: false
+
+  /next-redux-wrapper@8.1.0(next@13.4.2)(react-redux@9.1.1)(react@18.2.0):
+    resolution: {integrity: sha512-2hIau0hcI6uQszOtrvAFqgc0NkZegKYhBB7ZAKiG3jk7zfuQb4E7OV9jfxViqqojh3SEHdnFfPkN9KErttUKuw==}
+    peerDependencies:
+      next: '>=9'
+      react: '*'
+      react-redux: '*'
+    dependencies:
+      next: 13.4.2(@babel/core@7.24.4)(react-dom@18.2.0)(react@18.2.0)(sass@1.75.0)
+      react: 18.2.0
+      react-redux: 9.1.1(@types/react@18.2.79)(react@18.2.0)(redux@5.0.1)
     dev: false
 
   /next@13.4.2(@babel/core@7.24.4)(react-dom@18.2.0)(react@18.2.0)(sass@1.75.0):

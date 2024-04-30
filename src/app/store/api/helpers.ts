@@ -21,7 +21,7 @@ export const withQueryParams = <
   schema?: SchemaT<Keys, Args>;
 }): string => {
   const query = Object.entries(params)
-    .filter(([_, value]) => value !== undefined)
+    .filter(([_, value]) => value !== undefined && value !== null)
     .map(([key, value]) => {
       const fn = schema[key as Keys] ?? String;
       return `${key}=${fn(value as Args[Keys])}`;

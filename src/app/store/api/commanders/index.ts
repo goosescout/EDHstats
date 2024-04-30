@@ -9,14 +9,14 @@ const commandersApi = baseApi.injectEndpoints({
       query: ({ dateAfter, sizeMin, sizeMax, topCut }) =>
         withQueryParams({
           url: '/commanders',
-          params: { dateAfter: dateAfter?.toISO(), sizeMin, sizeMax, topCut },
+          params: { dateAfter, sizeMin, sizeMax, topCut },
         }),
     }),
     getCommander: builder.query<Commander | null, GetCommanderParams>({
       query: ({ name, dateAfter, sizeMin, sizeMax, topCut }) =>
         withQueryParams({
           url: `/commanders/${name}`,
-          params: { dateAfter: dateAfter?.toISO(), sizeMin, sizeMax, topCut },
+          params: { dateAfter, sizeMin, sizeMax, topCut },
         }),
     }),
   }),
@@ -25,3 +25,5 @@ const commandersApi = baseApi.injectEndpoints({
 export default commandersApi;
 
 export const { useGetCommandersQuery, useGetCommanderQuery } = commandersApi;
+
+export const { getCommanders, getCommander } = commandersApi.endpoints;

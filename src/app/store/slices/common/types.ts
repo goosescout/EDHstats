@@ -1,5 +1,5 @@
 import { MediaT } from '@app/utils/mediaQuery';
 
-export interface ICommonSlice {
+export type CommonSlice = {
   media: MediaT;
-}
+};

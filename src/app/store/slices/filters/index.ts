@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
 
-import { IFiltersSlice } from '@app/store/slices/filters/types';
+import { FiltersSlice } from '@app/store/slices/filters/types';
 import { ManaT } from '@app/utils/types';
 
-const initialState: IFiltersSlice = {
+const initialState: FiltersSlice = {
   search: '',
   mana: [],
   winrate: ['0', '100'],
@@ -12,7 +12,7 @@ const initialState: IFiltersSlice = {
   autoincludes: ['0', ''],
   uniqueCards: ['0', ''],
   dateAfter: DateTime.local().minus({ years: 1 }).toSeconds(),
-  size: ['64', ''],
+  size: ['4', ''],
   topCut: '',
 };
 

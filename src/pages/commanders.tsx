@@ -1,8 +1,11 @@
 import { FC } from 'react';
 
-import { GetServerSideProps } from 'next';
+import { DateTime } from 'luxon';
 
 import Page from '@app/components/Page';
+import commandersApi, { getCommanders } from '@app/store/api/commanders';
+import { wrapper } from '@app/store/store';
+import { RootState } from '@app/store/store';
 import styles from '@app/styles/Commanders.module.scss';
 import parseBaseContext from '@app/utils/parseBaseContext';
 import { BasePageProps } from '@app/utils/types';
@@ -23,16 +26,31 @@ const Commanders: FC<CommandersProps> = () => (
   </Page>
 );
 
-export const getServerSideProps: GetServerSideProps<
-  CommandersProps
-> = async context => {
-  const baseProps = parseBaseContext(context);
+export const getServerSideProps = wrapper.getServerSideProps<CommandersProps>(
+  store => async context => {
+    const baseProps = parseBaseContext(context);
 
-  return {
-    props: {
-      ...baseProps,
-    },
-  };
-};
+    const { filters } = store.getState() as RootState;
+
+    store.dispatch(
+      getCommanders.initiate({
+        dateAfter: DateTime.fromSeconds(filters.dateAfter).toISODate(),
+        sizeMin: filters.size[0] ? Number(filters.size[0]) : null,
+        sizeMax: filters.size[1] ? Number(filters.size[1]) : null,
+        topCut: filters.topCut ? Number(filters.topCut) : null,
+      }),
+    );
+
+    await Promise.all(
+      store.dispatch(commandersApi.util.getRunningQueriesThunk()),
+    );
+
+    return {
+      props: {
+        ...baseProps,
+      },
+    };
+  },
+);
 
 export default Commanders;

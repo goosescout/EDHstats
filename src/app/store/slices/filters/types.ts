@@ -1,6 +1,6 @@
 import { ManaT } from '@app/utils/types';
 
-export interface IFiltersSlice {
+export type FiltersSlice = {
   // Commander-specific filters
   search: string;
   mana: ManaT[];
@@ -13,4 +13,4 @@ export interface IFiltersSlice {
   dateAfter: number; // timestamp
   size: [string, string];
   topCut: string;
-}
+};

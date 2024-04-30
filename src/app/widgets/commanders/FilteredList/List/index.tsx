@@ -1,5 +1,9 @@
 import { ReactNode, useMemo } from 'react';
 
+import { DateTime } from 'luxon';
+
+import { useAppSelector } from '~/app/store';
+
 import Separator from '@app/components/Separator';
 import Table from '@app/components/Table';
 import { useGetCommandersQuery } from '@app/store/api/commanders';
@@ -26,7 +30,14 @@ const columns: {
 const AVG_WINRATE = 0.25;
 
 const List = () => {
-  const { data } = useGetCommandersQuery({});
+  const { dateAfter, size, topCut } = useAppSelector(({ filters }) => filters);
+
+  const { data } = useGetCommandersQuery({
+    dateAfter: DateTime.fromSeconds(dateAfter).toISODate(),
+    sizeMin: size[0] ? Number(size[0]) : null,
+    sizeMax: size[1] ? Number(size[1]) : null,
+    topCut: topCut ? Number(topCut) : null,
+  });
 
   const rows = useMemo(
     () =>

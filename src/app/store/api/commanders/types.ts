@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon';
-
 export type Commander = {
   name: string;
   identity: string;
@@ -12,10 +10,10 @@ export type Commander = {
 };
 
 export type GetCommandersParams = {
-  dateAfter?: DateTime;
-  sizeMin?: number;
-  sizeMax?: number;
-  topCut?: number;
+  dateAfter?: string | null;
+  sizeMin?: number | null;
+  sizeMax?: number | null;
+  topCut?: number | null;
 };
 
 export type GetCommanderParams = GetCommandersParams & {

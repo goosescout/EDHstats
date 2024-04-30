@@ -47,6 +47,7 @@ export default function Table({
         <ViewportList
           items={children}
           itemMargin={10}
+          initialPrerender={15}
           overscan={15}
           ref={listRef}
         >
