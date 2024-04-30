@@ -6,6 +6,7 @@ import {
   SwaggerDocumentOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import { RenderService } from 'nest-next';
 
 import { PORT } from '~/shared/constants/env';
 
@@ -37,6 +38,11 @@ async function bootstrap() {
   };
   const document = SwaggerModule.createDocument(app, config, option);
   SwaggerModule.setup('api', app, document);
+
+  const renderService = app.get(RenderService);
+  renderService.setErrorHandler(async (err, _req, res) => {
+    if (res.statusCode !== 404) res.send(err.response);
+  });
 
   await app.listen(PORT);
   console.log(`Application is running on: ${await app.getUrl()}`);

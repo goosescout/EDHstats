@@ -11,7 +11,7 @@ import { CommandersModule } from '@server/domain/commanders/commanders.module';
   imports: [
     RenderModule.forRootAsync(
       Next({ dev: process.env.NODE_ENV !== 'production' }),
-      { viewsDir: null },
+      { passthrough404: true, viewsDir: null },
     ),
     ConfigModule.forRoot({
       isGlobal: true,

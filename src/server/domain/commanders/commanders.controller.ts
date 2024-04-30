@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotImplementedException } from '@nestjs/common';
+import { Body, Controller, Get } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 import { TournamentParamsDto } from './dtos/tournamentParams.dto';
@@ -24,6 +24,6 @@ export class CommandersController {
   })
   @Get()
   async getCommanders(@Body() tournamentParams: TournamentParamsDto) {
-    throw new NotImplementedException();
+    return [];
   }
 }
