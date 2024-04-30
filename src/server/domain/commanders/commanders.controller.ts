@@ -61,7 +61,6 @@ export class CommandersController {
   })
   @Get('/:name')
   @UseInterceptors(CacheInterceptor)
-  // make cache expire after 1 day
   @CacheTTL(TTL_1_DAY)
   async getCommander(
     @Param('name') name: string,

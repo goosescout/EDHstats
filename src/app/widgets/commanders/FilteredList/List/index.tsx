@@ -2,6 +2,7 @@ import { ReactNode, useMemo } from 'react';
 
 import Separator from '@app/components/Separator';
 import Table from '@app/components/Table';
+import { useGetCommandersQuery } from '@app/store/api/commanders';
 
 import styles from './List.module.scss';
 import ManaContainer from './ManaContainer';
@@ -22,94 +23,60 @@ const columns: {
   { name: 'Price', width: 108, sort: 'none' },
 ];
 
-const commanders = [
-  'Tymna, the Weaver',
-  'Tevesh Szat, Doom of Fools // Kraum, Ludevic’s Opus',
-  'Godo, Bandit Warlord',
-  'Kinnan, Bonder’s Prodigy',
-];
-
-const MANA_SYMBOLS = ['W', 'U', 'B', 'R', 'G'];
-const AVG_WINRATE = 50;
-
-const getRandomManaSymbols = () => {
-  const manaSymbols = MANA_SYMBOLS.slice();
-  const manaSymbolsCount = Math.floor(1 * 5) + 1;
-
-  return manaSymbols
-    .sort(() => 1 - 0.5)
-    .slice(0, manaSymbolsCount)
-    .sort((a, b) => MANA_SYMBOLS.indexOf(a) - MANA_SYMBOLS.indexOf(b))
-    .join('');
-};
+const AVG_WINRATE = 0.25;
 
 const List = () => {
+  const { data } = useGetCommandersQuery({});
+
   const rows = useMemo(
     () =>
-      [
-        ...commanders,
-        ...commanders,
-        ...commanders,
-        ...commanders,
-        ...commanders,
-        ...commanders,
-        ...commanders,
-        ...commanders,
-        ...commanders,
-        ...commanders,
-      ].map((commander, index) => {
-        const winrate = Number((1 * 100).toFixed(2));
-
-        return (
-          <Row columns={columns} key={index}>
-            <span key={`${columns[0].name}_${index}`}>{index + 1}</span>
-            <WithTableDivider>
-              <div
-                className={styles['name-column']}
-                key={`${columns[1].name}_${index}`}
-              >
-                {commander}
-              </div>
-            </WithTableDivider>
-            <WithTableDivider>
-              <ManaContainer key={`${columns[2].name}_${index}`}>
-                {getRandomManaSymbols()}
-              </ManaContainer>
-            </WithTableDivider>
-            <WithTableDivider>
-              <div
-                className={styles['winrate-column']}
-                key={`${columns[3].name}_${index}`}
-                data-positive={winrate > AVG_WINRATE}
-              >
-                {winrate}%
-              </div>
-            </WithTableDivider>
-            <WithTableDivider>
-              <span key={`${columns[4].name}_${index}`}>
-                {(1 * 1000).toFixed(0)}
-              </span>
-            </WithTableDivider>
-            <WithTableDivider>
-              <span key={`${columns[5].name}_${index}`}>
-                {(1 * 100).toFixed(0)}
-              </span>
-            </WithTableDivider>
-            <WithTableDivider>
-              <span key={`${columns[6].name}_${index}`}>
-                {(1 * 1000).toFixed(0)}
-              </span>
-            </WithTableDivider>
-            <WithTableDivider>
-              <span key={`${columns[7].name}_${index}`}>
-                ${(1 * 1000).toFixed(2)}
-              </span>
-            </WithTableDivider>
-          </Row>
-        );
-      }),
-    [],
+      data?.map((commander, index) => (
+        <Row columns={columns} key={index}>
+          <span key={`${columns[0].name}_${index}`}>{index + 1}</span>
+          <WithTableDivider>
+            <div
+              className={styles['name-column']}
+              key={`${columns[1].name}_${index}`}
+            >
+              {commander.name}
+            </div>
+          </WithTableDivider>
+          <WithTableDivider>
+            <ManaContainer key={`${columns[2].name}_${index}`}>
+              {commander.identity}
+            </ManaContainer>
+          </WithTableDivider>
+          <WithTableDivider>
+            <div
+              className={styles['winrate-column']}
+              key={`${columns[3].name}_${index}`}
+              data-positive={commander.winrate > AVG_WINRATE}
+            >
+              {Math.round(commander.winrate * 100)}%
+            </div>
+          </WithTableDivider>
+          <WithTableDivider>
+            <span key={`${columns[4].name}_${index}`}>{commander.decks}</span>
+          </WithTableDivider>
+          <WithTableDivider>
+            <span key={`${columns[5].name}_${index}`}>
+              {commander.autoincludes}
+            </span>
+          </WithTableDivider>
+          <WithTableDivider>
+            <span key={`${columns[6].name}_${index}`}>{commander.unique}</span>
+          </WithTableDivider>
+          <WithTableDivider>
+            <span key={`${columns[7].name}_${index}`}>
+              ${commander.avgPrice.toFixed(2)}
+            </span>
+          </WithTableDivider>
+        </Row>
+      )),
+    [data],
   );
+
+  if (!rows) return null;
 
   return (
     <Table className={styles.table} columns={columns}>
