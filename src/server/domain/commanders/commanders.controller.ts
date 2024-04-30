@@ -1,5 +1,16 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Query,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
 
 import { TournamentParamsDto } from './dtos/tournamentParams.dto';
 import { Commander } from './models/commander.model';
@@ -11,16 +22,14 @@ export class CommandersController {
   constructor(private commandersService: CommandersService) {}
 
   @ApiOperation({
-    summary:
-      'Get all commanders from tournaments with parameters specified in request body',
+    summary: 'Get all commanders from tournaments with specified parameters',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Commanders successfully fetched',
     type: Commander,
+    isArray: true,
   })
-  @ApiResponse({
-    status: 400,
+  @ApiBadRequestResponse({
     description: 'Some of the provided parameters are invalid',
   })
   @Get()
@@ -28,5 +37,34 @@ export class CommandersController {
     @Query() tournamentParams: TournamentParamsDto,
   ): Promise<Commander[]> {
     return await this.commandersService.getCommanders(tournamentParams);
+  }
+
+  @ApiOperation({
+    summary:
+      'Get a single commander from tournaments with specified parameters',
+  })
+  @ApiOkResponse({
+    description: 'Commander successfully fetched',
+    type: Commander,
+  })
+  @ApiBadRequestResponse({
+    description: 'Some of the provided parameters are invalid',
+  })
+  @ApiNotFoundResponse({
+    description: 'Commander not found',
+  })
+  @Get('/:name')
+  async getCommander(
+    @Param('name') name: string,
+    @Query() tournamentParams: TournamentParamsDto,
+  ): Promise<Commander> {
+    const commander = await this.commandersService.getCommander({
+      name,
+      ...tournamentParams,
+    });
+
+    if (!commander) throw new NotFoundException('Commander not found');
+
+    return commander;
   }
 }

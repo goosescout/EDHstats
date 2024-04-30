@@ -141,13 +141,11 @@ export class CommandersService {
 
     const { cards, winrates, drawrates, prices } = decks.reduce(
       (acc, deck) => {
-        const total = deck.wins + deck.draws + deck.losses || 1;
-
         deck.cards.forEach(card =>
           acc.cards.set(card.name, (acc.cards.get(card.name) ?? 0) + 1),
         );
-        acc.winrates.push(deck.wins / total);
-        acc.drawrates.push(deck.draws / total);
+        acc.winrates.push(deck.winrate);
+        acc.drawrates.push(deck.drawrate);
         acc.prices.push(deck.price);
         return acc;
       },
@@ -271,48 +269,59 @@ export class CommandersService {
       return;
     }
 
-    const { commanders, cards, price } = this.getCards(decklist);
-    const arePartners = commanders.length > 1;
+    try {
+      const { commanders, cards, price } = this.getCards(decklist);
+      const arePartners = commanders.length > 1;
 
-    const commandersName = arePartners
-      ? `${commanders[0].name} // ${commanders[1].name}`
-      : commanders[0].name;
+      const commandersName = arePartners
+        ? `${commanders[0].name} // ${commanders[1].name}`
+        : commanders[0].name;
 
-    const identity = arePartners
-      ? mergeIdentities(commanders[0].identity, commanders[1].identity)
-      : getIdentity(commanders[0].identity);
+      const identity = arePartners
+        ? mergeIdentities(commanders[0].identity, commanders[1].identity)
+        : getIdentity(commanders[0].identity);
 
-    await this.prisma.commander.createMany({
-      data: [
-        {
-          name: commandersName,
-          identity,
+      const totalGames = player.wins + player.draws + player.losses || 1;
+      const winrate = player.wins / totalGames;
+      const drawrate = player.draws / totalGames;
+
+      await this.prisma.commander.createMany({
+        data: [
+          {
+            name: commandersName,
+            identity,
+          },
+        ],
+        skipDuplicates: true,
+      });
+
+      await this.prisma.card.createMany({
+        data: cards,
+        skipDuplicates: true,
+      });
+
+      await this.prisma.deck.create({
+        data: {
+          id: decklist.id,
+          tournamentId,
+          commanderName: commandersName,
+          date,
+          wins: player.wins,
+          draws: player.draws,
+          losses: player.losses,
+          place: current,
+          winrate,
+          drawrate,
+          price,
+          cards: {
+            connect: cards,
+          },
         },
-      ],
-      skipDuplicates: true,
-    });
-
-    await this.prisma.card.createMany({
-      data: cards,
-      skipDuplicates: true,
-    });
-
-    await this.prisma.deck.create({
-      data: {
-        id: decklist.id,
-        tournamentId,
-        commanderName: commandersName,
-        date,
-        wins: player.wins,
-        draws: player.draws,
-        losses: player.losses,
-        place: current,
-        price,
-        cards: {
-          connect: cards,
-        },
-      },
-    });
+      });
+    } catch (error) {
+      this.logger.error(`Failed to process decklist ${decklistLink}`);
+      this.logger.error(error);
+    }
   }
 
   private getCards(decklist: Decklist): {

@@ -24,6 +24,9 @@ model Deck {
   date   DateTime
   price  Float
 
+  winrate Float
+  drawrate Float
+
   commander     Commander @relation(fields: [commanderName], references: [name])
   commanderName String
 

@@ -8,6 +8,8 @@ import {
 } from '@nestjs/common';
 import { Observable, finalize } from 'rxjs';
 
+import { TIMING_HEADER } from '~/shared/constants';
+
 @Injectable()
 export class TimingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
@@ -16,7 +18,7 @@ export class TimingInterceptor implements NestInterceptor {
       finalize(() => {
         const res = context.switchToHttp().getResponse<ServerResponse>();
         res.setHeader(
-          'x-render-time',
+          TIMING_HEADER,
           Number(process.hrtime.bigint() - start) / 1e6,
         );
       }),

@@ -1,5 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 
+import { TIMING_HEADER } from '~/shared/constants';
+
 import { BasePageProps } from './types';
 
 const parseBaseContext = (
@@ -7,7 +9,7 @@ const parseBaseContext = (
 ): BasePageProps => {
   return {
     serverRenderTime:
-      Math.round(context.res.getHeader('x-render-time') as number) / 1000,
+      Math.round(context.res.getHeader(TIMING_HEADER) as number) / 1000,
   };
 };
 
