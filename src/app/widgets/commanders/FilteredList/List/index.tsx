@@ -1,24 +1,24 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useMemo } from 'react';
 
+import clsx from 'clsx';
 import isEqual from 'lodash/isEqual';
 import { DateTime } from 'luxon';
 
 import { useAppSelector } from '~/app/store';
+import useDebouncedCallback from '~/app/utils/hooks/useDebounce';
 
 import Separator from '@app/components/Separator';
 import Table from '@app/components/Table';
 import { useGetCommandersQuery } from '@app/store/api/commanders';
+import { Column } from '@app/widgets/commanders/FilteredList/List/types';
+
+import useSortedColumns from './hooks/useSortedColumns';
 
 import styles from './List.module.scss';
 import ManaContainer from './ManaContainer';
 import Row from './Row';
 
-const initialColumns: {
-  name: string;
-  key: string;
-  width: number | 'fill';
-  sort: 'asc' | 'desc' | 'none' | null;
-}[] = [
+const initialColumns: Column[] = [
   { name: '#', key: 'number', width: 40, sort: null },
   { name: 'Commander', key: 'name', width: 'fill', sort: null },
   { name: 'Colors', key: 'identity', width: 124, sort: null },
@@ -35,35 +35,21 @@ const List = () => {
   const { search, mana, winrate, decks, uniqueCards, dateAfter, size, topCut } =
     useAppSelector(({ filters }) => filters);
 
-  const [sortColumn, setSortColumn] = useState<{
-    key: string;
-    order: 'asc' | 'desc';
-  }>({
-    key: 'winrate',
-    order: 'desc',
-  });
+  const { columns, sortColumn, handleSort } = useSortedColumns(initialColumns);
 
-  const { data } = useGetCommandersQuery({
-    dateAfter: DateTime.fromSeconds(dateAfter).toISODate(),
-    sizeMin: size[0] ? Number(size[0]) : null,
-    sizeMax: size[1] ? Number(size[1]) : null,
-    topCut: topCut ? Number(topCut) : null,
-  });
-
-  const columns = useMemo(
-    () =>
-      initialColumns.map(column => {
-        if (column.key === sortColumn.key) {
-          return {
-            ...column,
-            sort: sortColumn.order,
-          };
-        }
-
-        return column;
-      }),
-    [sortColumn],
+  const getCommandersParams = useMemo(
+    () => ({
+      dateAfter: DateTime.fromSeconds(dateAfter).toISODate(),
+      sizeMin: size[0] ? Number(size[0]) : null,
+      sizeMax: size[1] ? Number(size[1]) : null,
+      topCut: topCut ? Number(topCut) : null,
+    }),
+    [dateAfter, size, topCut],
   );
+
+  const debouncedParams = useDebouncedCallback(getCommandersParams, 800);
+
+  const { data, isFetching } = useGetCommandersQuery(debouncedParams);
 
   const filteredData = useMemo(() => {
     if (!data) return null;
@@ -104,15 +90,6 @@ const List = () => {
         return b[sortColumn.key] - a[sortColumn.key];
       });
   }, [data, decks, mana, search, sortColumn, uniqueCards, winrate]);
-
-  const handleSort = (key: string, state: 'asc' | 'desc' | 'none') => {
-    if (state === 'none') return;
-
-    setSortColumn({
-      key,
-      order: state,
-    });
-  };
 
   const rows = useMemo(
     () =>
@@ -165,7 +142,11 @@ const List = () => {
   if (!rows) return null;
 
   return (
-    <Table className={styles.table} columns={columns} onSort={handleSort}>
+    <Table
+      className={clsx(styles.table, isFetching && styles.loading)}
+      columns={columns}
+      onSort={handleSort}
+    >
       {rows}
     </Table>
   );

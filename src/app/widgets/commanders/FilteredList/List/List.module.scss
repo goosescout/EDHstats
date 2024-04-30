@@ -1,5 +1,13 @@
 .table {
   width: 100%;
+
+  opacity: 1;
+  transition: opacity $basic-transition;
+
+  &.loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 .name-column {
