@@ -7,8 +7,7 @@ const INT4_MAX = 2147483647;
 
 export class TournamentParamsDto {
   @ApiProperty({
-    description:
-      'Date after which the tournaments are included, in milliseconds',
+    description: 'Date after which the tournaments are included',
     type: 'string',
     example: '2024-04-29',
     required: false,

@@ -12,6 +12,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
 } from '@nestjs/swagger';
 
 import { TournamentParamsDto } from './dtos/tournamentParams.dto';
@@ -48,6 +49,11 @@ export class CommandersController {
   @ApiOperation({
     summary:
       'Get a single commander from tournaments with specified parameters',
+  })
+  @ApiParam({
+    name: 'name',
+    description: 'Commander name',
+    example: 'Kess, Dissident Mage',
   })
   @ApiOkResponse({
     description: 'Commander successfully fetched',
