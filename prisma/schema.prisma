@@ -8,31 +8,37 @@ datasource db {
 }
 
 model Card {
-  id       Int    @id @default(autoincrement())
-  name     String
+  name     String @id
   manacost String
   decks    Deck[]
 }
 
 model Deck {
-  id    Int    @id @default(autoincrement())
+  id    String @id
   cards Card[]
 
-  wins           Int
-  losses         Int
-  draws          Int
-  place          Int
-  tournamentSize Int
-  date           DateTime
-  price          Float
+  wins   Int
+  losses Int
+  draws  Int
+  place  Int
+  date   DateTime
+  price  Float
 
-  commander   Commander @relation(fields: [commanderId], references: [id])
-  commanderId Int
+  commander     Commander @relation(fields: [commanderName], references: [name])
+  commanderName String
+
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId String
+}
+
+model Tournament {
+  id    String @id
+  size  Int
+  decks Deck[]
 }
 
 model Commander {
-  id       Int    @id @default(autoincrement())
-  name     String
+  name     String @id
   identity String
   decks    Deck[]
 }

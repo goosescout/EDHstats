@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { RenderModule } from 'nest-next';
 import Next from 'next';
 
@@ -15,6 +16,7 @@ import { CommandersModule } from '@server/domain/commanders/commanders.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ScheduleModule.forRoot(),
     CommandersModule,
   ],
   controllers: [RenderController],
