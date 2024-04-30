@@ -2,16 +2,15 @@ import { ReactNode, useMemo } from 'react';
 
 import clsx from 'clsx';
 import isEqual from 'lodash/isEqual';
-import { DateTime } from 'luxon';
-
-import { useAppSelector } from '~/app/store';
-import useDebouncedCallback from '~/app/utils/hooks/useDebounce';
 
 import Separator from '@app/components/Separator';
 import Table from '@app/components/Table';
+import { useAppSelector } from '@app/store';
+import { useGetAverageStatsQuery } from '@app/store/api/analytics';
 import { useGetCommandersQuery } from '@app/store/api/commanders';
 import { Column } from '@app/widgets/commanders/FilteredList/List/types';
 
+import useApiFilters from './hooks/useApiFilters';
 import useSortedColumns from './hooks/useSortedColumns';
 
 import styles from './List.module.scss';
@@ -29,32 +28,23 @@ const initialColumns: Column[] = [
   { name: 'Price', key: 'avgPrice', width: 108, sort: 'none' },
 ];
 
-const AVG_WINRATE = 0.25;
-
 const List = () => {
-  const { search, mana, winrate, decks, uniqueCards, dateAfter, size, topCut } =
-    useAppSelector(({ filters }) => filters);
+  const { search, mana, winrate, decks, uniqueCards } = useAppSelector(
+    ({ filters }) => filters,
+  );
 
   const { columns, sortColumn, handleSort } = useSortedColumns(initialColumns);
 
-  const getCommandersParams = useMemo(
-    () => ({
-      dateAfter: DateTime.fromSeconds(dateAfter).toISODate(),
-      sizeMin: size[0] ? Number(size[0]) : null,
-      sizeMax: size[1] ? Number(size[1]) : null,
-      topCut: topCut ? Number(topCut) : null,
-    }),
-    [dateAfter, size, topCut],
-  );
+  const debouncedParams = useApiFilters();
 
-  const debouncedParams = useDebouncedCallback(getCommandersParams, 800);
+  const { data: averageStats } = useGetAverageStatsQuery(debouncedParams);
+  const { data: commanders, isFetching } =
+    useGetCommandersQuery(debouncedParams);
 
-  const { data, isFetching } = useGetCommandersQuery(debouncedParams);
+  const filteredCommanders = useMemo(() => {
+    if (!commanders) return null;
 
-  const filteredData = useMemo(() => {
-    if (!data) return null;
-
-    return data
+    return commanders
       .filter(commander => {
         if (mana.length > 0 && !isEqual(mana, commander.identity.split('')))
           return false;
@@ -89,11 +79,11 @@ const List = () => {
 
         return b[sortColumn.key] - a[sortColumn.key];
       });
-  }, [data, decks, mana, search, sortColumn, uniqueCards, winrate]);
+  }, [commanders, decks, mana, search, sortColumn, uniqueCards, winrate]);
 
   const rows = useMemo(
     () =>
-      filteredData?.map((commander, index) => (
+      filteredCommanders?.map((commander, index) => (
         <Row columns={columns} key={index}>
           <span key={`${columns[0].key}_${index}`}>{index + 1}</span>
           <WithTableDivider>
@@ -113,9 +103,11 @@ const List = () => {
             <div
               className={styles['winrate-column']}
               key={`${columns[3].key}_${index}`}
-              data-positive={commander.winrate > AVG_WINRATE}
+              data-positive={
+                commander.winrate > (averageStats?.winrate ?? 0.25)
+              }
             >
-              {Math.round(commander.winrate * 100)}%
+              {(commander.winrate * 100).toFixed(2)}%
             </div>
           </WithTableDivider>
           <WithTableDivider>
@@ -136,7 +128,7 @@ const List = () => {
           </WithTableDivider>
         </Row>
       )) ?? [],
-    [columns, filteredData],
+    [averageStats?.winrate, columns, filteredCommanders],
   );
 
   return (

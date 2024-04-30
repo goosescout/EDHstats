@@ -11,6 +11,7 @@ import { RenderService } from 'nest-next';
 import { PORT } from '~/shared/constants/env';
 
 import { TimingInterceptor } from '@server/application/interceptors/timing.interceptor';
+import { AnalyticsModule } from '@server/domain/analytics/analytics.module';
 import { CommandersModule } from '@server/domain/commanders/commanders.module';
 
 import { AppModule } from './app.module';
@@ -34,7 +35,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const option: SwaggerDocumentOptions = {
-    include: [CommandersModule],
+    include: [CommandersModule, AnalyticsModule],
     deepScanRoutes: true,
   };
   const document = SwaggerModule.createDocument(app, config, option);

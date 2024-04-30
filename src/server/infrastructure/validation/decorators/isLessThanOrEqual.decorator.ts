@@ -4,13 +4,13 @@ import {
   ValidationOptions,
 } from 'class-validator';
 
-export function isLessThanOrEqual(
+export function IsLessThanOrEqual(
   property: string,
   validationOptions?: ValidationOptions,
 ) {
   return (object: any, propertyName: string) => {
     registerDecorator({
-      name: 'isLessThanOrEqual',
+      name: 'IsLessThanOrEqual',
       target: object.constructor,
       propertyName: propertyName,
       constraints: [property],

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsPositive, Min } from 'class-validator';
 
-import { isLessThanOrEqual } from '~/server/infrastructure/validation/decorators/isLessThanOrEqual.decorator';
+import { IsLessThanOrEqual } from '@server/infrastructure/validation/decorators/IsLessThanOrEqual.decorator';
 
 const INT4_MAX = 2147483647;
 
@@ -22,7 +22,7 @@ export class TournamentParamsDto {
     example: 8,
     required: false,
   })
-  @isLessThanOrEqual('sizeMax')
+  @IsLessThanOrEqual('sizeMax')
   @Min(0)
   sizeMin: number = 0;
 

@@ -1,3 +1,5 @@
+import { TournamentParams } from '@app/store/api/types';
+
 export type Commander = {
   name: string;
   identity: string;
@@ -9,12 +11,7 @@ export type Commander = {
   avgPrice: number;
 };
 
-export type GetCommandersParams = {
-  dateAfter?: string | null;
-  sizeMin?: number | null;
-  sizeMax?: number | null;
-  topCut?: number | null;
-};
+export type GetCommandersParams = TournamentParams;
 
 export type GetCommanderParams = GetCommandersParams & {
   name: string;

@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { DateTime } from 'luxon';
 
 import Page from '@app/components/Page';
+import analyticsApi, { getAverageStats } from '@app/store/api/analytics';
 import commandersApi, { getCommanders } from '@app/store/api/commanders';
 import { wrapper } from '@app/store/store';
 import { RootState } from '@app/store/store';
@@ -32,18 +33,20 @@ export const getServerSideProps = wrapper.getServerSideProps<CommandersProps>(
 
     const { filters } = store.getState() as RootState;
 
-    store.dispatch(
-      getCommanders.initiate({
-        dateAfter: DateTime.fromSeconds(filters.dateAfter).toISODate(),
-        sizeMin: filters.size[0] ? Number(filters.size[0]) : null,
-        sizeMax: filters.size[1] ? Number(filters.size[1]) : null,
-        topCut: filters.topCut ? Number(filters.topCut) : null,
-      }),
-    );
+    const tournamentParams = {
+      dateAfter: DateTime.fromSeconds(filters.dateAfter).toISODate(),
+      sizeMin: filters.size[0] ? Number(filters.size[0]) : null,
+      sizeMax: filters.size[1] ? Number(filters.size[1]) : null,
+      topCut: filters.topCut ? Number(filters.topCut) : null,
+    };
 
-    await Promise.all(
-      store.dispatch(commandersApi.util.getRunningQueriesThunk()),
-    );
+    store.dispatch(getCommanders.initiate(tournamentParams));
+    store.dispatch(getAverageStats.initiate(tournamentParams));
+
+    await Promise.all([
+      ...store.dispatch(commandersApi.util.getRunningQueriesThunk()),
+      ...store.dispatch(analyticsApi.util.getRunningQueriesThunk()),
+    ]);
 
     return {
       props: {

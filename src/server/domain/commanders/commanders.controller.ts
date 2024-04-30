@@ -13,15 +13,17 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiTags,
 } from '@nestjs/swagger';
 
-import { TournamentParamsDto } from './dtos/tournamentParams.dto';
+import { TTL_1_DAY } from '@server/infrastructure/constants';
+
+import { GetCommandersParamsDto } from './dtos/getCommandersParams.dto';
 import { Commander } from './models/commander.model';
 
 import { CommandersService } from './commanders.service';
 
-const TTL_1_DAY = 24 * 60 * 60 * 1000;
-
+@ApiTags('Commanders')
 @Controller('/api/commanders')
 export class CommandersController {
   constructor(private commandersService: CommandersService) {}
@@ -41,7 +43,7 @@ export class CommandersController {
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
   async getCommanders(
-    @Query() tournamentParams: TournamentParamsDto,
+    @Query() tournamentParams: GetCommandersParamsDto,
   ): Promise<Commander[]> {
     return await this.commandersService.getCommanders(tournamentParams);
   }
@@ -70,7 +72,7 @@ export class CommandersController {
   @CacheTTL(TTL_1_DAY)
   async getCommander(
     @Param('name') name: string,
-    @Query() tournamentParams: TournamentParamsDto,
+    @Query() tournamentParams: GetCommandersParamsDto,
   ): Promise<Commander> {
     const commander = await this.commandersService.getCommander({
       name,

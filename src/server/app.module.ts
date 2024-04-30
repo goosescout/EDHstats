@@ -6,6 +6,7 @@ import { RenderModule } from 'nest-next';
 import Next from 'next';
 
 import { RenderController } from '@server/application/controllers/render.controller';
+import { AnalyticsModule } from '@server/domain/analytics/analytics.module';
 import { CommandersModule } from '@server/domain/commanders/commanders.module';
 
 @Module({
@@ -22,6 +23,7 @@ import { CommandersModule } from '@server/domain/commanders/commanders.module';
     }),
     ScheduleModule.forRoot(),
     CommandersModule,
+    AnalyticsModule,
   ],
   controllers: [RenderController],
 })
