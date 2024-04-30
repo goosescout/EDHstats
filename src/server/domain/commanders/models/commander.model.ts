@@ -20,8 +20,14 @@ export class Commander {
   winrate!: number;
 
   @ApiProperty({
+    description: 'Commander drawrate',
+    example: 0.1,
+  })
+  drawrate!: number;
+
+  @ApiProperty({
     description: 'Commander deck count',
-    example: 100,
+    example: 10,
   })
   decks!: number;
 
@@ -33,7 +39,7 @@ export class Commander {
 
   @ApiProperty({
     description: 'Commander unique cards count',
-    example: 30,
+    example: 100,
   })
   unique!: number;
 

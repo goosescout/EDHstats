@@ -3,6 +3,8 @@ import { IsDate, IsPositive, Min } from 'class-validator';
 
 import { isLessThanOrEqual } from '~/server/infrastructure/validation/decorators/isLessThanOrEqual.decorator';
 
+const INT4_MAX = 2147483647;
+
 export class TournamentParamsDto {
   @ApiProperty({
     description:
@@ -31,7 +33,7 @@ export class TournamentParamsDto {
     required: false,
   })
   @Min(0)
-  sizeMax: number = Number.MAX_SAFE_INTEGER;
+  sizeMax: number = INT4_MAX;
 
   @ApiProperty({
     description: 'The lowest place in the tournament standings to include',
@@ -39,5 +41,5 @@ export class TournamentParamsDto {
     required: false,
   })
   @IsPositive()
-  topCut: number = Number.MAX_SAFE_INTEGER;
+  topCut: number = INT4_MAX;
 }

@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Card, Commander } from '@prisma/client';
+import mean from 'lodash/mean';
 
 import { getIdentity } from '~/shared/helpers/getIdentity';
 import { mergeIdentities } from '~/shared/helpers/mergeIdentities';
@@ -10,6 +11,7 @@ import { PrismaService } from '@server/infrastructure/database/prisma.service';
 import { Decklist } from './entities/decklist.entity';
 import { Player } from './entities/player.entity';
 import { Tournament } from './entities/tournament.entity';
+import { Commander as CommanderModel } from './models/commander.model';
 
 const MOXFIELD_DECKLIST_URL = 'https://www.moxfield.com/decks/';
 const SLICE_LENGTH = MOXFIELD_DECKLIST_URL.length;
@@ -19,6 +21,14 @@ type GetCommandersParams = {
   sizeMin?: number;
   sizeMax?: number;
   topCut?: number;
+};
+
+type GetCommanderParams = GetCommandersParams & {
+  name: string;
+};
+
+type GetCommanderStatsParams = GetCommandersParams & {
+  commander: Commander;
 };
 
 @Injectable()
@@ -35,29 +45,134 @@ export class CommandersService {
     sizeMin,
     sizeMax,
     topCut,
-  }: GetCommandersParams) {
-    console.log(dateAfter, sizeMin, sizeMax, topCut);
-    try {
-      const decks = await this.prisma.deck.groupBy({
-        by: ['commanderName'],
-        where: {
-          date: {
-            gte: dateAfter,
-          },
-          tournament: {
-            size: {
-              gte: sizeMin,
-              lte: sizeMax,
+  }: GetCommandersParams): Promise<CommanderModel[]> {
+    const commanders = await this.prisma.commander.findMany({
+      where: {
+        decks: {
+          some: {
+            date: {
+              gte: dateAfter,
+            },
+            tournament: {
+              size: {
+                gte: sizeMin,
+                lte: sizeMax,
+              },
+            },
+            place: {
+              lte: topCut,
             },
           },
         },
-      });
-      console.log(decks);
-      return [];
-    } catch (error) {
-      console.error(error);
-      return [];
+      },
+    });
+
+    return await Promise.all(
+      commanders.map(
+        async commander =>
+          await this.getCommanderStats({
+            commander,
+            dateAfter,
+            sizeMin,
+            sizeMax,
+            topCut,
+          }),
+      ),
+    );
+  }
+
+  async getCommander({
+    dateAfter,
+    sizeMin,
+    sizeMax,
+    topCut,
+    name,
+  }: GetCommanderParams): Promise<CommanderModel | null> {
+    const commander = await this.prisma.commander.findUnique({
+      where: {
+        name,
+      },
+    });
+
+    if (!commander) return null;
+
+    return await this.getCommanderStats({
+      dateAfter,
+      sizeMin,
+      sizeMax,
+      topCut,
+      commander,
+    });
+  }
+
+  private async getCommanderStats({
+    dateAfter,
+    sizeMin,
+    sizeMax,
+    topCut,
+    commander,
+  }: GetCommanderStatsParams): Promise<CommanderModel> {
+    const decks = await this.prisma.deck.findMany({
+      where: {
+        commanderName: commander.name,
+        date: {
+          gte: dateAfter,
+        },
+        tournament: {
+          size: {
+            gte: sizeMin,
+            lte: sizeMax,
+          },
+        },
+        place: {
+          lte: topCut,
+        },
+      },
+      include: {
+        cards: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    const decksCount = decks.length;
+
+    const { cards, winrates, drawrates, prices } = decks.reduce(
+      (acc, deck) => {
+        const total = deck.wins + deck.draws + deck.losses || 1;
+
+        deck.cards.forEach(card =>
+          acc.cards.set(card.name, (acc.cards.get(card.name) ?? 0) + 1),
+        );
+        acc.winrates.push(deck.wins / total);
+        acc.drawrates.push(deck.draws / total);
+        acc.prices.push(deck.price);
+        return acc;
+      },
+      {
+        cards: new Map<string, number>(),
+        winrates: [] as number[],
+        drawrates: [] as number[],
+        prices: [] as number[],
+      },
+    );
+
+    let autoincludes = 0;
+    for (const count of cards.values()) {
+      if (count >= decksCount * 0.9) autoincludes++;
     }
+
+    return {
+      ...commander,
+      autoincludes,
+      unique: cards.size,
+      avgPrice: mean(prices),
+      winrate: mean(winrates),
+      drawrate: mean(drawrates),
+      decks: decksCount,
+    };
   }
 
   /**
