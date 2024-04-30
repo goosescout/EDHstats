@@ -14,6 +14,13 @@ import { Tournament } from './entities/tournament.entity';
 const MOXFIELD_DECKLIST_URL = 'https://www.moxfield.com/decks/';
 const SLICE_LENGTH = MOXFIELD_DECKLIST_URL.length;
 
+type GetCommandersParams = {
+  dateAfter?: Date;
+  sizeMin?: number;
+  sizeMax?: number;
+  topCut?: number;
+};
+
 @Injectable()
 export class CommandersService {
   private logger = new Logger(CommandersService.name);
@@ -23,8 +30,34 @@ export class CommandersService {
     private configService: ConfigService,
   ) {}
 
-  async getCommanders() {
-    return await this.prisma.commander.findMany();
+  async getCommanders({
+    dateAfter,
+    sizeMin,
+    sizeMax,
+    topCut,
+  }: GetCommandersParams) {
+    console.log(dateAfter, sizeMin, sizeMax, topCut);
+    try {
+      const decks = await this.prisma.deck.groupBy({
+        by: ['commanderName'],
+        where: {
+          date: {
+            gte: dateAfter,
+          },
+          tournament: {
+            size: {
+              gte: sizeMin,
+              lte: sizeMax,
+            },
+          },
+        },
+      });
+      console.log(decks);
+      return [];
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
   }
 
   /**

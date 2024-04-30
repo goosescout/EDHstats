@@ -1,7 +1,8 @@
-import { Body, Controller, Get } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Controller, Get, Query } from '@nestjs/common';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 import { TournamentParamsDto } from './dtos/tournamentParams.dto';
+import { Commander } from './models/commander.model';
 
 import { CommandersService } from './commanders.service';
 
@@ -13,18 +14,19 @@ export class CommandersController {
     summary:
       'Get all commanders from tournaments with parameters specified in request body',
   })
-  @ApiBody({ type: TournamentParamsDto, required: false })
   @ApiResponse({
     status: 200,
     description: 'Commanders successfully fetched',
+    type: Commander,
   })
   @ApiResponse({
     status: 400,
     description: 'Some of the provided parameters are invalid',
   })
   @Get()
-  async getCommanders(@Body() tournamentParams: TournamentParamsDto) {
-    console.log(tournamentParams);
-    return [];
+  async getCommanders(
+    @Query() tournamentParams: TournamentParamsDto,
+  ): Promise<Commander[]> {
+    return await this.commandersService.getCommanders(tournamentParams);
   }
 }

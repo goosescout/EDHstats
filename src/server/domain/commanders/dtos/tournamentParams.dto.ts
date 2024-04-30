@@ -1,47 +1,43 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
-import { IsDate, IsInt, IsPositive, Min } from 'class-validator';
+import { IsDate, IsPositive, Min } from 'class-validator';
 
 import { isLessThanOrEqual } from '~/server/infrastructure/validation/decorators/isLessThanOrEqual.decorator';
 
 export class TournamentParamsDto {
   @ApiProperty({
     description:
-      'Timestamp (number) or Date (string) after which the tournaments are included, in milliseconds',
-    oneOf: [
-      { type: 'string', example: '2024-04-29' },
-      { type: 'number', example: 1670000000000 },
-    ],
+      'Date after which the tournaments are included, in milliseconds',
+    type: 'string',
+    example: '2024-04-29',
+    required: false,
   })
   @IsDate({
-    message:
-      'dateAfter must be a valid timestamp or string Date representation',
+    message: 'dateAfter must be a valid string Date representation',
   })
-  @Transform(({ value }) => new Date(value))
-  dateAfter!: number | string;
+  dateAfter: Date = new Date(0);
 
   @ApiProperty({
     description: 'The minimum number of players in the tournament',
     example: 8,
+    required: false,
   })
   @isLessThanOrEqual('sizeMax')
-  @IsInt()
   @Min(0)
-  sizeMin!: number;
+  sizeMin: number = 0;
 
   @ApiProperty({
     description: 'The maximum number of players in the tournament',
     example: 32,
+    required: false,
   })
-  @IsInt()
   @Min(0)
-  sizeMax!: number;
+  sizeMax: number = Number.MAX_SAFE_INTEGER;
 
   @ApiProperty({
     description: 'The lowest place in the tournament standings to include',
     example: 4,
+    required: false,
   })
-  @IsInt()
   @IsPositive()
-  topCut!: number;
+  topCut: number = Number.MAX_SAFE_INTEGER;
 }

@@ -19,7 +19,7 @@ export function isLessThanOrEqual(
         validate(value: any, args: ValidationArguments) {
           const [relatedPropertyName] = args.constraints;
           const relatedValue = (args.object as any)[relatedPropertyName];
-          if (value === undefined || relatedValue === undefined) return true;
+          if (isNaN(Number(value)) || isNaN(Number(value))) return true;
           return (
             typeof value === 'number' &&
             typeof relatedValue === 'number' &&
@@ -27,7 +27,7 @@ export function isLessThanOrEqual(
           );
         },
         defaultMessage(args: ValidationArguments) {
-          return `${args.property} must be less than ${args.constraints[0]}`;
+          return `${args.property} must be less than or equal to ${args.constraints[0]}`;
         },
       },
     });
