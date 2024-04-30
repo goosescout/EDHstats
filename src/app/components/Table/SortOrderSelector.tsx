@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import ArrowDown from '~/assets/icons/ArrowDown';
 
 import styles from './SortOrderSelector.module.scss';
@@ -8,28 +10,26 @@ type SortOrderSelectorProps = {
   onClick: (state: 'asc' | 'desc' | 'none') => void;
 };
 
-export default function SortOrderSelector({
+const SortOrderSelector = memo(function SortOrderSelector({
   state,
   name,
   onClick,
 }: SortOrderSelectorProps) {
-  const handleClick = () => onClick(state!);
+  const handleClick = () => {
+    if (state === 'asc') onClick('desc');
+    else if (state === 'desc') onClick('asc');
+    else onClick('desc');
+  };
 
   if (state === null) return <span>{name}</span>;
 
-  if (state === 'none')
-    return (
-      <div className={styles.wrapper} data-state={state} onClick={handleClick}>
-        <span>{name}</span>
-        <ArrowDown />
-        <ArrowDown />
-      </div>
-    );
-
   return (
-    <div className={styles.wrapper} data-state={state}>
+    <div className={styles.wrapper} data-state={state} onClick={handleClick}>
       <span>{name}</span>
-      <ArrowDown />
+      {(state === 'none' || state === 'asc') && <ArrowDown />}
+      {(state === 'none' || state === 'desc') && <ArrowDown />}
     </div>
   );
-}
+});
+
+export default SortOrderSelector;

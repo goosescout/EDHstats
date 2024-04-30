@@ -1,5 +1,6 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 
+import isEqual from 'lodash/isEqual';
 import { DateTime } from 'luxon';
 
 import { useAppSelector } from '~/app/store';
@@ -12,25 +13,35 @@ import styles from './List.module.scss';
 import ManaContainer from './ManaContainer';
 import Row from './Row';
 
-const columns: {
+const initialColumns: {
   name: string;
+  key: string;
   width: number | 'fill';
   sort: 'asc' | 'desc' | 'none' | null;
 }[] = [
-  { name: '#', width: 40, sort: null },
-  { name: 'Commander', width: 'fill', sort: null },
-  { name: 'Colors', width: 124, sort: null },
-  { name: 'Winrate', width: 68, sort: 'desc' },
-  { name: 'Decks', width: 52, sort: 'none' },
-  { name: 'Autoincludes', width: 84, sort: 'none' },
-  { name: 'Unique', width: 60, sort: 'none' },
-  { name: 'Price', width: 108, sort: 'none' },
+  { name: '#', key: 'number', width: 40, sort: null },
+  { name: 'Commander', key: 'name', width: 'fill', sort: null },
+  { name: 'Colors', key: 'identity', width: 124, sort: null },
+  { name: 'Winrate', key: 'winrate', width: 68, sort: 'none' },
+  { name: 'Decks', key: 'decks', width: 52, sort: 'none' },
+  { name: 'Autoincludes', key: 'autoincludes', width: 84, sort: 'none' },
+  { name: 'Unique', key: 'unique', width: 60, sort: 'none' },
+  { name: 'Price', key: 'avgPrice', width: 108, sort: 'none' },
 ];
 
 const AVG_WINRATE = 0.25;
 
 const List = () => {
-  const { dateAfter, size, topCut } = useAppSelector(({ filters }) => filters);
+  const { search, mana, winrate, decks, uniqueCards, dateAfter, size, topCut } =
+    useAppSelector(({ filters }) => filters);
+
+  const [sortColumn, setSortColumn] = useState<{
+    key: string;
+    order: 'asc' | 'desc';
+  }>({
+    key: 'winrate',
+    order: 'desc',
+  });
 
   const { data } = useGetCommandersQuery({
     dateAfter: DateTime.fromSeconds(dateAfter).toISODate(),
@@ -39,58 +50,122 @@ const List = () => {
     topCut: topCut ? Number(topCut) : null,
   });
 
+  const columns = useMemo(
+    () =>
+      initialColumns.map(column => {
+        if (column.key === sortColumn.key) {
+          return {
+            ...column,
+            sort: sortColumn.order,
+          };
+        }
+
+        return column;
+      }),
+    [sortColumn],
+  );
+
+  const filteredData = useMemo(() => {
+    if (!data) return null;
+
+    return data
+      .filter(commander => {
+        if (mana.length > 0 && !isEqual(mana, commander.identity.split('')))
+          return false;
+
+        const winrateMin = Number(winrate[0]) / 100;
+        const winrateMax = winrate[1] ? Number(winrate[1]) / 100 : 1;
+        if (commander.winrate < winrateMin || commander.winrate > winrateMax)
+          return false;
+
+        const decksMin = Number(decks[0]);
+        const decksMax = decks[1] ? Number(decks[1]) : Infinity;
+        if (commander.decks < decksMin || commander.decks > decksMax)
+          return false;
+
+        const uniqueMin = Number(uniqueCards[0]);
+        const uniqueMax = uniqueCards[1] ? Number(uniqueCards[1]) : Infinity;
+        if (commander.unique < uniqueMin || commander.unique > uniqueMax)
+          return false;
+
+        if (
+          search &&
+          !commander.name.toLowerCase().includes(search.toLowerCase())
+        )
+          return false;
+
+        return true;
+      })
+      .toSorted((a, b) => {
+        if (sortColumn.order === 'asc') {
+          return a[sortColumn.key] - b[sortColumn.key];
+        }
+
+        return b[sortColumn.key] - a[sortColumn.key];
+      });
+  }, [data, decks, mana, search, sortColumn, uniqueCards, winrate]);
+
+  const handleSort = (key: string, state: 'asc' | 'desc' | 'none') => {
+    if (state === 'none') return;
+
+    setSortColumn({
+      key,
+      order: state,
+    });
+  };
+
   const rows = useMemo(
     () =>
-      data?.map((commander, index) => (
+      filteredData?.map((commander, index) => (
         <Row columns={columns} key={index}>
-          <span key={`${columns[0].name}_${index}`}>{index + 1}</span>
+          <span key={`${columns[0].key}_${index}`}>{index + 1}</span>
           <WithTableDivider>
             <div
               className={styles['name-column']}
-              key={`${columns[1].name}_${index}`}
+              key={`${columns[1].key}_${index}`}
             >
               {commander.name}
             </div>
           </WithTableDivider>
           <WithTableDivider>
-            <ManaContainer key={`${columns[2].name}_${index}`}>
+            <ManaContainer key={`${columns[2].key}_${index}`}>
               {commander.identity}
             </ManaContainer>
           </WithTableDivider>
           <WithTableDivider>
             <div
               className={styles['winrate-column']}
-              key={`${columns[3].name}_${index}`}
+              key={`${columns[3].key}_${index}`}
               data-positive={commander.winrate > AVG_WINRATE}
             >
               {Math.round(commander.winrate * 100)}%
             </div>
           </WithTableDivider>
           <WithTableDivider>
-            <span key={`${columns[4].name}_${index}`}>{commander.decks}</span>
+            <span key={`${columns[4].key}_${index}`}>{commander.decks}</span>
           </WithTableDivider>
           <WithTableDivider>
-            <span key={`${columns[5].name}_${index}`}>
+            <span key={`${columns[5].key}_${index}`}>
               {commander.autoincludes}
             </span>
           </WithTableDivider>
           <WithTableDivider>
-            <span key={`${columns[6].name}_${index}`}>{commander.unique}</span>
+            <span key={`${columns[6].key}_${index}`}>{commander.unique}</span>
           </WithTableDivider>
           <WithTableDivider>
-            <span key={`${columns[7].name}_${index}`}>
+            <span key={`${columns[7].key}_${index}`}>
               ${commander.avgPrice.toFixed(2)}
             </span>
           </WithTableDivider>
         </Row>
       )),
-    [data],
+    [columns, filteredData],
   );
 
   if (!rows) return null;
 
   return (
-    <Table className={styles.table} columns={columns}>
+    <Table className={styles.table} columns={columns} onSort={handleSort}>
       {rows}
     </Table>
   );

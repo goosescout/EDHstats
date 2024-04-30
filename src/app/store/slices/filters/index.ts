@@ -4,6 +4,8 @@ import { DateTime } from 'luxon';
 import { FiltersSlice } from '@app/store/slices/filters/types';
 import { ManaT } from '@app/utils/types';
 
+const COLORS: ManaT[] = ['W', 'U', 'B', 'R', 'G', 'C'];
+
 const initialState: FiltersSlice = {
   search: '',
   mana: [],
@@ -25,7 +27,10 @@ const filtersSlice = createSlice({
     },
 
     setMana: (state, { payload }: PayloadAction<ManaT[]>) => {
-      state.mana = payload;
+      const result: ManaT[] = [];
+      for (const color of COLORS)
+        if (payload.includes(color)) result.push(color);
+      state.mana = result;
     },
 
     setWinrate: (state, { payload }: PayloadAction<[string, string]>) => {

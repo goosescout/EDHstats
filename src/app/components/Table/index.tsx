@@ -9,17 +9,23 @@ import { Column } from './types';
 type TableProps = {
   columns: Column[];
   showHeader?: boolean;
+  onSort?: (name: string, state: 'asc' | 'desc' | 'none') => void;
   className?: string;
   children: ReactNode[];
 };
 
-export default function Table({
+const Table = ({
   columns,
   showHeader = true,
+  onSort,
   className = '',
   children,
-}: TableProps) {
+}: TableProps) => {
   const listRef = useRef<ViewportListRef>(null);
+
+  const getOnClick = (name: string) => (state: 'asc' | 'desc' | 'none') => {
+    onSort?.(name, state);
+  };
 
   return (
     <div className={className}>
@@ -32,12 +38,12 @@ export default function Table({
               .join(' '),
           }}
         >
-          {columns.map(({ name, sort }) => (
+          {columns.map(({ name, key, sort }) => (
             <SortOrderSelector
-              key={name}
+              key={key}
               state={sort}
               name={name}
-              onClick={() => {}}
+              onClick={getOnClick(key)}
             />
           ))}
         </div>
@@ -56,4 +62,6 @@ export default function Table({
       </div>
     </div>
   );
-}
+};
+
+export default Table;
