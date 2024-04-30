@@ -7,7 +7,9 @@ import { mergeIdentities } from '~/shared/helpers/mergeIdentities';
 
 import { PrismaService } from '@server/infrastructure/database/prisma.service';
 
-import { Decklist, Player, Tournament } from './commanders.entities';
+import { Decklist } from './entities/decklist.entity';
+import { Player } from './entities/player.entity';
+import { Tournament } from './entities/tournament.entity';
 
 const MOXFIELD_DECKLIST_URL = 'https://www.moxfield.com/decks/';
 const SLICE_LENGTH = MOXFIELD_DECKLIST_URL.length;

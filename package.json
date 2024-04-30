@@ -30,6 +30,8 @@
     "@nestjs/swagger": "^7.3.1",
     "@prisma/client": "5.13.0",
     "@reduxjs/toolkit": "^2.2.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "clsx": "^2.1.1",
     "luxon": "^3.4.4",
     "nest-next": "^10.1.0",
