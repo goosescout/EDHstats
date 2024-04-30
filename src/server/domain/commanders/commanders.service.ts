@@ -33,7 +33,6 @@ export class CommandersService {
    *
    * @param last Number of days to fetch tournaments from
    */
-
   async fetchNewCommanders(last: number) {
     this.logger.log(`Fetching tournaments for the last ${last} days...`);
     const tournaments = await this.fetchTorunaments(last);

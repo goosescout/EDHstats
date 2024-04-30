@@ -24,6 +24,7 @@ export class CommandersController {
   })
   @Get()
   async getCommanders(@Body() tournamentParams: TournamentParamsDto) {
+    console.log(tournamentParams);
     return [];
   }
 }
