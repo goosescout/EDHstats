@@ -117,7 +117,11 @@ const Stats: FC<StatsProps> = ({ name }) => {
             );
 
           const isBelowAverage = averageStats[averageKey] > commanderStats[key];
-          const color = isBelowAverage && key === 'winrate' ? 'red' : 'green';
+          const color =
+            (isBelowAverage && key === 'winrate') ||
+            (!isBelowAverage && key === 'drawrate')
+              ? 'red'
+              : 'green';
           const avgValue = (averageStats[averageKey] * 100).toFixed(2);
 
           return (
