@@ -12,6 +12,7 @@ import { Decklist } from './entities/decklist.entity';
 import { Player } from './entities/player.entity';
 import { Tournament } from './entities/tournament.entity';
 import { Commander as CommanderModel } from './models/commander.model';
+import { CommanderBrief as CommanderBriefModel } from './models/commanderBrief.model';
 
 const MOXFIELD_DECKLIST_URL = 'https://www.moxfield.com/decks/';
 const SLICE_LENGTH = MOXFIELD_DECKLIST_URL.length;
@@ -171,6 +172,23 @@ export class CommandersService {
       drawrate: mean(drawrates),
       decks: decksCount,
     };
+  }
+
+  async searchCommanders(query: string): Promise<CommanderBriefModel[]> {
+    const commanders = await this.prisma.commander.findMany({
+      where: {
+        name: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        name: true,
+        identity: true,
+      },
+    });
+
+    return commanders;
   }
 
   /**

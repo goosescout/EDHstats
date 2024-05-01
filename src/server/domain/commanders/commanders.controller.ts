@@ -13,6 +13,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -20,6 +21,7 @@ import { TTL_1_DAY } from '@server/infrastructure/constants';
 
 import { GetCommandersParamsDto } from './dtos/getCommandersParams.dto';
 import { Commander } from './models/commander.model';
+import { CommanderBrief } from './models/commanderBrief.model';
 
 import { CommandersService } from './commanders.service';
 
@@ -46,6 +48,28 @@ export class CommandersController {
     @Query() tournamentParams: GetCommandersParamsDto,
   ): Promise<Commander[]> {
     return await this.commandersService.getCommanders(tournamentParams);
+  }
+
+  @ApiOperation({
+    summary:
+      'Get a brief commander description which name matches the search query',
+  })
+  @ApiQuery({
+    name: 'query',
+    description: 'Search query. If not provided, all commanders are returned',
+    example: 'Kess',
+    required: false,
+  })
+  @ApiOkResponse({
+    description: 'Commanders successfully fetched',
+    type: CommanderBrief,
+    isArray: true,
+  })
+  @Get('/search')
+  async searchCommanders(
+    @Query('query') query: string,
+  ): Promise<CommanderBrief[]> {
+    return await this.commandersService.searchCommanders(query);
   }
 
   @ApiOperation({
