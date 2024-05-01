@@ -4,12 +4,13 @@ import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 
 import Page from '@app/components/Page';
+import analyticsApi, { getAverageStats } from '@app/store/api/analytics';
 import commandersApi, {
   getCommander,
   getImages,
   useGetCommanderQuery,
 } from '@app/store/api/commanders';
-import { RootState, wrapper } from '@app/store/store';
+import { wrapper } from '@app/store/store';
 import styles from '@app/styles/CommanderAnalytics.module.scss';
 import useTournamentFilters from '@app/utils/hooks/useTournamentFilters';
 import parseBaseContext from '@app/utils/parseBaseContext';
@@ -62,7 +63,7 @@ export const getServerSideProps =
 
       const name = context.params?.name as string;
 
-      const { filters } = store.getState() as RootState;
+      const { filters } = store.getState();
 
       const tournamentParams = {
         dateAfter: DateTime.fromSeconds(filters.dateAfter).toISODate(),
@@ -73,10 +74,12 @@ export const getServerSideProps =
 
       store.dispatch(getCommander.initiate({ name, ...tournamentParams }));
       store.dispatch(getImages.initiate(name));
+      store.dispatch(getAverageStats.initiate(tournamentParams));
 
-      await Promise.all(
-        store.dispatch(commandersApi.util.getRunningQueriesThunk()),
-      );
+      await Promise.all([
+        ...store.dispatch(commandersApi.util.getRunningQueriesThunk()),
+        ...store.dispatch(analyticsApi.util.getRunningQueriesThunk()),
+      ]);
 
       baseProps.serverRenderTime += Math.round(Date.now() - start) / 1000;
 

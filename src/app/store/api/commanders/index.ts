@@ -30,7 +30,7 @@ const commandersApi = baseApi.injectEndpoints({
       query: query =>
         withQueryParams({
           url: '/commanders/search',
-          params: { query },
+          params: { query: encodeURIComponent(query) },
         }),
     }),
 

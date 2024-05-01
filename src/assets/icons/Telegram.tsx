@@ -1,4 +1,4 @@
-export default function Telegram() {
+const Telegram = () => {
   return (
     <svg
       width="18"
@@ -13,4 +13,6 @@ export default function Telegram() {
       />
     </svg>
   );
-}
+};
+
+export default Telegram;

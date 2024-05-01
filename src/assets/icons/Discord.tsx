@@ -1,4 +1,4 @@
-export default function Discord() {
+const Discord = () => {
   return (
     <svg
       width="18"
@@ -13,4 +13,6 @@ export default function Discord() {
       />
     </svg>
   );
-}
+};
+
+export default Discord;

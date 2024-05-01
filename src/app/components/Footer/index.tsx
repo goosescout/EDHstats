@@ -49,7 +49,7 @@ const Footer: FC<FooterProps> = ({ serverRenderTime }) => {
         <p>
           Page loaded in{' '}
           {serverRenderTime
-            ? `${serverRenderTime} sec (server) + ${loadTime} sec
+            ? `${serverRenderTime.toFixed(3)} sec (server) + ${loadTime} sec
           (client)`
             : `${loadTime} sec`}
         </p>

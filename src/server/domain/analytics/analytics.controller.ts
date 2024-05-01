@@ -34,7 +34,7 @@ export class AnalyticsController {
   @Get('average-stats')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
-  async test(
+  async getAverageStats(
     @Query() tournamentParams: GetAverageStatsParams,
   ): Promise<AverageStats> {
     return await this.analyticsService.getAverageStats(tournamentParams);

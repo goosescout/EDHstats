@@ -6,7 +6,6 @@ import Page from '@app/components/Page';
 import analyticsApi, { getAverageStats } from '@app/store/api/analytics';
 import commandersApi, { getCommanders } from '@app/store/api/commanders';
 import { wrapper } from '@app/store/store';
-import { RootState } from '@app/store/store';
 import styles from '@app/styles/Commanders.module.scss';
 import parseBaseContext from '@app/utils/parseBaseContext';
 import { BasePageProps } from '@app/utils/types';
@@ -32,7 +31,7 @@ export const getServerSideProps = wrapper.getServerSideProps<CommandersProps>(
     const start = Date.now();
     const baseProps = parseBaseContext(context);
 
-    const { filters } = store.getState() as RootState;
+    const { filters } = store.getState();
 
     const tournamentParams = {
       dateAfter: DateTime.fromSeconds(filters.dateAfter).toISODate(),

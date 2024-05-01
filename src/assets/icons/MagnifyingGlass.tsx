@@ -1,4 +1,4 @@
-export default function MagnifyingGlass() {
+const MagnifyingGlass = () => {
   return (
     <svg
       width="24"
@@ -20,4 +20,6 @@ export default function MagnifyingGlass() {
       </defs>
     </svg>
   );
-}
+};
+
+export default MagnifyingGlass;

@@ -1,6 +1,6 @@
 import colors from '@app/styles/colors';
 
-export default function Logo() {
+const Logo = () => {
   return (
     <svg
       width="50"
@@ -30,4 +30,6 @@ export default function Logo() {
       </defs>
     </svg>
   );
-}
+};
+
+export default Logo;

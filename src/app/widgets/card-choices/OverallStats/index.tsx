@@ -3,7 +3,9 @@ import { FC } from 'react';
 import ManaContainer from '@app/components/ManaContainer';
 
 import CommanderImages from './CommanderImages';
+import Filters from './Filters';
 import styles from './OverallStats.module.scss';
+import Stats from './Stats';
 
 type OverallStatsProps = {
   name: string;
@@ -20,6 +22,8 @@ const OverallStats: FC<OverallStatsProps> = ({ name, identity = '' }) => {
 
       <div className={styles.stats}>
         <CommanderImages name={name} />
+        <Filters />
+        <Stats name={name} />
       </div>
     </div>
   );

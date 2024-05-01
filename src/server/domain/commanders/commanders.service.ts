@@ -167,9 +167,9 @@ export class CommandersService {
       ...commander,
       autoincludes,
       unique: cards.size,
-      avgPrice: mean(prices),
-      winrate: mean(winrates),
-      drawrate: mean(drawrates),
+      avgPrice: prices.length ? mean(prices) : 0,
+      winrate: winrates.length ? mean(winrates) : 0,
+      drawrate: drawrates.length ? mean(drawrates) : 0,
       decks: decksCount,
     };
   }
@@ -299,8 +299,7 @@ export class CommandersService {
   ) {
     const decklistLink = player.decklist;
 
-    if (!decklistLink || !decklistLink.startsWith(MOXFIELD_DECKLIST_URL))
-      return;
+    if (!decklistLink?.startsWith(MOXFIELD_DECKLIST_URL)) return;
 
     this.logger.log(
       `Processing decklist ${decklistLink} (${current}/${total})...`,

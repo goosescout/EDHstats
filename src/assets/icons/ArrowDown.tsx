@@ -1,4 +1,4 @@
-export default function ArrowDown() {
+const ArrowDown = () => {
   return (
     <svg
       width="10"
@@ -15,4 +15,6 @@ export default function ArrowDown() {
       />
     </svg>
   );
-}
+};
+
+export default ArrowDown;

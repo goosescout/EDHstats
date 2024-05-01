@@ -19,7 +19,7 @@ export function IsLessThanOrEqual(
         validate(value: any, args: ValidationArguments) {
           const [relatedPropertyName] = args.constraints;
           const relatedValue = (args.object as any)[relatedPropertyName];
-          if (isNaN(Number(value)) || isNaN(Number(value))) return true;
+          if (isNaN(Number(value)) || isNaN(Number(relatedValue))) return true;
           return (
             typeof value === 'number' &&
             typeof relatedValue === 'number' &&
