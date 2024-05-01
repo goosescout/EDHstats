@@ -9,6 +9,8 @@ import { RenderController } from '@server/application/controllers/render.control
 import { AnalyticsModule } from '@server/domain/analytics/analytics.module';
 import { CommandersModule } from '@server/domain/commanders/commanders.module';
 
+import { SchedulerService } from './infrastructure/schedule/scheduler.service';
+
 @Module({
   imports: [
     CacheModule.register({
@@ -26,5 +28,6 @@ import { CommandersModule } from '@server/domain/commanders/commanders.module';
     AnalyticsModule,
   ],
   controllers: [RenderController],
+  providers: [SchedulerService],
 })
 export class AppModule {}
