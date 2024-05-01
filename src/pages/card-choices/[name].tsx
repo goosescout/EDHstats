@@ -4,7 +4,10 @@ import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 
 import Page from '@app/components/Page';
-import analyticsApi, { getAverageStats } from '@app/store/api/analytics';
+import analyticsApi, {
+  getAverageStats,
+  getCommanderStats,
+} from '@app/store/api/analytics';
 import commandersApi, {
   getCommander,
   getImages,
@@ -79,6 +82,7 @@ export const getServerSideProps =
       store.dispatch(getCommander.initiate({ name, ...tournamentParams }));
       store.dispatch(getImages.initiate(name));
       store.dispatch(getAverageStats.initiate(tournamentParams));
+      store.dispatch(getCommanderStats.initiate({ name, ...tournamentParams }));
 
       await Promise.all([
         ...store.dispatch(commandersApi.util.getRunningQueriesThunk()),

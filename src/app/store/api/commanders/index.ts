@@ -18,7 +18,7 @@ const commandersApi = baseApi.injectEndpoints({
         }),
     }),
 
-    getCommander: builder.query<Commander | null, GetCommanderParams>({
+    getCommander: builder.query<Commander, GetCommanderParams>({
       query: ({ name, dateAfter, sizeMin, sizeMax, topCut }) =>
         withQueryParams({
           url: `/commanders/${encodeURIComponent(name)}`,

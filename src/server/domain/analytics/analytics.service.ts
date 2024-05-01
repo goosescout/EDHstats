@@ -189,11 +189,6 @@ export class AnalyticsService {
           lte: topCut,
         },
         cards: {
-          some: {
-            name: {
-              in: included,
-            },
-          },
           every: {
             name: {
               notIn: excluded,
