@@ -34,7 +34,7 @@ const Navbar = () => {
             key={text}
             href={href}
             className={clsx(
-              router.pathname === href && styles.active,
+              router.pathname.startsWith(href) && styles.active,
               styles['navbar-link'],
             )}
           >

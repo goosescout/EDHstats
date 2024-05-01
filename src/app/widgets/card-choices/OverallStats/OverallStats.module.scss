@@ -1,0 +1,19 @@
+.wrapper {
+  margin-top: 32px;
+
+  > .header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    > h2 {
+      margin: 0;
+      font-family: $sf-pro-display-bold;
+      font-size: 32px;
+    }
+  }
+}
+
+.stats {
+  margin-top: 16px;
+}

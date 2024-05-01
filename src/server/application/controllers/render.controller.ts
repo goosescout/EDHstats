@@ -1,4 +1,4 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Param, Render } from '@nestjs/common';
 
 @Controller()
 export class RenderController {
@@ -18,5 +18,11 @@ export class RenderController {
   @Render('card-choices')
   cardChoices() {
     return {};
+  }
+
+  @Get('card-choices/:name')
+  @Render('card-choices/[name]')
+  commanderAnalytics(@Param('name') name: string) {
+    return { name };
   }
 }

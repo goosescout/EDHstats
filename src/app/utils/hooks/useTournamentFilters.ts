@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import { useAppSelector } from '@app/store';
 import useDebounce from '@app/utils/hooks/useDebounce';
 
-const useApiFilters = () => {
+const useTournamentFilters = () => {
   const { dateAfter, size, topCut } = useAppSelector(({ filters }) => filters);
 
   const tournamentParams = useMemo(
@@ -23,4 +23,4 @@ const useApiFilters = () => {
   return debouncedParams;
 };
 
-export default useApiFilters;
+export default useTournamentFilters;

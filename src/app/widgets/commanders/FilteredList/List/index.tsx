@@ -1,16 +1,18 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 
 import clsx from 'clsx';
 import isEqual from 'lodash/isEqual';
+import { useRouter } from 'next/router';
 
 import Separator from '@app/components/Separator';
 import Table from '@app/components/Table';
 import { useAppSelector } from '@app/store';
 import { useGetAverageStatsQuery } from '@app/store/api/analytics';
 import { useGetCommandersQuery } from '@app/store/api/commanders';
+import { Commander } from '@app/store/api/commanders/types';
+import useTournamentFilters from '@app/utils/hooks/useTournamentFilters';
 import { Column } from '@app/widgets/commanders/FilteredList/List/types';
 
-import useApiFilters from './hooks/useApiFilters';
 import useSortedColumns from './hooks/useSortedColumns';
 
 import styles from './List.module.scss';
@@ -29,17 +31,25 @@ const initialColumns: Column[] = [
 ];
 
 const List = () => {
+  const router = useRouter();
+
   const { search, mana, winrate, decks, uniqueCards } = useAppSelector(
     ({ filters }) => filters,
   );
 
   const { columns, sortColumn, handleSort } = useSortedColumns(initialColumns);
 
-  const debouncedParams = useApiFilters();
+  const debouncedParams = useTournamentFilters();
 
   const { data: averageStats } = useGetAverageStatsQuery(debouncedParams);
   const { data: commanders, isFetching } =
     useGetCommandersQuery(debouncedParams);
+
+  const getHandleRowClick = useCallback(
+    (commander: Commander) => () =>
+      router.push(`/card-choices/${encodeURIComponent(commander.name)}`),
+    [router],
+  );
 
   const filteredCommanders = useMemo(() => {
     if (!commanders) return null;
@@ -84,7 +94,11 @@ const List = () => {
   const rows = useMemo(
     () =>
       filteredCommanders?.map((commander, index) => (
-        <Row columns={columns} key={index}>
+        <Row
+          columns={columns}
+          key={index}
+          onClick={getHandleRowClick(commander)}
+        >
           <span key={`${columns[0].key}_${index}`}>{index + 1}</span>
           <WithTableDivider>
             <div
@@ -128,7 +142,7 @@ const List = () => {
           </WithTableDivider>
         </Row>
       )) ?? [],
-    [averageStats?.winrate, columns, filteredCommanders],
+    [averageStats?.winrate, columns, filteredCommanders, getHandleRowClick],
   );
 
   return (

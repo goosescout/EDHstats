@@ -1,11 +1,11 @@
 import { ChangeEventHandler, FC, useState } from 'react';
 
+import ManaContainer from '@app/components/ManaContainer';
 import Searchbar from '@app/components/Searchbar';
 import { useSearchCommandersQuery } from '@app/store/api/commanders';
 import useDebounce from '@app/utils/hooks/useDebounce';
 
 import styles from './CommandersSearch.module.scss';
-import ManaContainer from './ManaContainer';
 
 type CommandersSearchProps = {
   initialCommander?: string;

@@ -1,0 +1,24 @@
+.wrapper {
+  display: flex;
+  gap: 10px;
+  
+  > img {
+    height: 224px;
+  }
+}
+
+.skeleton {
+  background-color: $light-gray;
+  border-radius: 8px;
+
+  width: 160.58px;
+  height: 224px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: $outfit-medium;
+  font-size: 16px;
+  color: rgba($black, 0.5);
+}

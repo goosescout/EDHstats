@@ -21,7 +21,7 @@ const commandersApi = baseApi.injectEndpoints({
     getCommander: builder.query<Commander | null, GetCommanderParams>({
       query: ({ name, dateAfter, sizeMin, sizeMax, topCut }) =>
         withQueryParams({
-          url: `/commanders/${name}`,
+          url: `/commanders/${encodeURIComponent(name)}`,
           params: { dateAfter, sizeMin, sizeMax, topCut },
         }),
     }),
@@ -33,6 +33,10 @@ const commandersApi = baseApi.injectEndpoints({
           params: { query },
         }),
     }),
+
+    getImages: builder.query<string[], string>({
+      query: name => `/commanders/${encodeURIComponent(name)}/images`,
+    }),
   }),
 });
 
@@ -42,7 +46,8 @@ export const {
   useGetCommandersQuery,
   useGetCommanderQuery,
   useSearchCommandersQuery,
+  useGetImagesQuery,
 } = commandersApi;
 
-export const { getCommanders, getCommander, searchCommanders } =
+export const { getCommanders, getCommander, searchCommanders, getImages } =
   commandersApi.endpoints;

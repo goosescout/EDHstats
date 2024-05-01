@@ -23,7 +23,7 @@ const CardChoices: FC<BasePageProps> = () => (
 );
 
 export const getServerSideProps = wrapper.getServerSideProps<CardChoicesProps>(
-  store => async context => {
+  () => async context => {
     const start = Date.now();
     const baseProps = parseBaseContext(context);
 

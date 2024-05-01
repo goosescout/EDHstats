@@ -66,6 +66,8 @@ export class CommandersController {
     isArray: true,
   })
   @Get('/search')
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(TTL_1_DAY)
   async searchCommanders(
     @Query('query') query: string,
   ): Promise<CommanderBrief[]> {
@@ -106,5 +108,33 @@ export class CommandersController {
     if (!commander) throw new NotFoundException('Commander not found');
 
     return commander;
+  }
+
+  @ApiOperation({
+    summary:
+      'Get commander images if commanders are partners or a flip card. Otherwise, get a single image',
+  })
+  @ApiParam({
+    name: 'name',
+    description: 'Commander name',
+    example: 'Kess, Dissident Mage',
+  })
+  @ApiOkResponse({
+    description: 'Commander image successfully fetched',
+    type: String,
+    isArray: true,
+  })
+  @ApiNotFoundResponse({
+    description: 'Commander not found',
+  })
+  @Get('/:name/images')
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(TTL_1_DAY)
+  async getCommanderImages(@Param('name') name: string): Promise<string[]> {
+    const images = await this.commandersService.getCommanderImages(name);
+
+    if (!images) throw new NotFoundException('Commander not found');
+
+    return images;
   }
 }

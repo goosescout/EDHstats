@@ -196,6 +196,44 @@ export class CommandersService {
     return commanders;
   }
 
+  async getCommanderImages(name: string): Promise<string[] | null> {
+    const commander = await this.prisma.commander.findUnique({
+      where: {
+        name,
+      },
+    });
+
+    if (!commander) return null;
+
+    if (commander.name.includes(' // ')) {
+      // Partners or double-faced commander
+      const partners = commander.name.split(' // ');
+      const images = await Promise.all(
+        partners.map(partner => this.fetchCommanderImage(partner)),
+      );
+      if (!images[0] || !images[1]) return null;
+      if (images[0].length !== 1) return images[0]; // Double-faced commander
+      return [images[0][0], images[1][0]];
+    } else {
+      // Normal commander
+      const images = await this.fetchCommanderImage(commander.name);
+      return images;
+    }
+  }
+
+  private async fetchCommanderImage(name: string): Promise<string[] | null> {
+    const response = await fetch(
+      `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}`,
+    );
+    if (!response.ok) return null;
+
+    const card = await response.json();
+    if ('card_faces' in card)
+      return card.card_faces.map(face => face.image_uris.normal);
+
+    return [card.image_uris.normal];
+  }
+
   /**
    * Fetches tournaments from the last `last` days and processes them.
    * The function directly creates new commanders, cards and decks in the database.

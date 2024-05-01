@@ -4,15 +4,15 @@ import Button from '@app/components/Button';
 import Line from '@app/components/Line';
 import { useAppDispatch } from '@app/store';
 import { clearFilters } from '@app/store/slices/filters';
+import TopCut from '@app/widgets/filters/TopCut';
+import TournamentDateAfter from '@app/widgets/filters/TournamentDateAfter';
+import TournamentSize from '@app/widgets/filters/TournamentSize';
 
 import Autoincludes from './Autoincludes';
 import Decks from './Decks';
 import styles from './Filters.module.scss';
 import ManaFilter from './ManaFilter';
 import Search from './Search';
-import TopCut from './TopCut';
-import TournamentDateAfter from './TournamentDateAfter';
-import TournamentSize from './TournamentSize';
 import UniqueCards from './UniqueCards';
 import Winrate from './Winrate';
 
