@@ -9,30 +9,41 @@ type CommanderImagesProps = {
 };
 
 const CommanderImages: FC<CommanderImagesProps> = ({ name }) => {
-  const { data: images, isLoading, isError } = useGetImagesQuery(name);
-
   const hasMultiple = name.includes(' // ');
+
+  const { data: images, isError } = useGetImagesQuery(name);
 
   if (isError)
     return <div className={styles.skeleton}>Failed to load image</div>;
 
-  if (isLoading)
-    return (
-      <div className={styles.wrapper}>
-        {hasMultiple ? (
-          <>
-            <div className={styles.skeleton} />
-            <div className={styles.skeleton} />
-          </>
-        ) : (
-          <div className={styles.skeleton} />
-        )}
-      </div>
-    );
-
   return (
     <div className={styles.wrapper}>
-      {images?.map(image => <img key={image} src={image} alt={name} />)}
+      {hasMultiple ? (
+        <>
+          <div
+            className={styles.skeleton}
+            style={{
+              backgroundImage: `url(${images?.[0]})`,
+              backgroundSize: 'cover',
+            }}
+          />
+          <div
+            className={styles.skeleton}
+            style={{
+              backgroundImage: `url(${images?.[1]})`,
+              backgroundSize: 'cover',
+            }}
+          />
+        </>
+      ) : (
+        <div
+          className={styles.skeleton}
+          style={{
+            backgroundImage: `url(${images?.[0]})`,
+            backgroundSize: 'cover',
+          }}
+        />
+      )}
     </div>
   );
 };

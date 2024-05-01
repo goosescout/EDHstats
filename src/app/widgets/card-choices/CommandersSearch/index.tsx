@@ -1,4 +1,6 @@
-import { ChangeEventHandler, FC, useState } from 'react';
+import { ChangeEventHandler, FC, useEffect, useState } from 'react';
+
+import { useRouter } from 'next/router';
 
 import ManaContainer from '@app/components/ManaContainer';
 import Searchbar from '@app/components/Searchbar';
@@ -12,6 +14,8 @@ type CommandersSearchProps = {
 };
 
 const CommandersSearch: FC<CommandersSearchProps> = ({ initialCommander }) => {
+  const router = useRouter();
+
   const [value, setValue] = useState(initialCommander ?? '');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,6 +28,11 @@ const CommandersSearch: FC<CommandersSearchProps> = ({ initialCommander }) => {
 
   const handleFocus = () => setIsOpen(true);
   const handleBlur = () => setIsOpen(false);
+
+  const getHandleClick = (name: string) => () => {
+    setValue(name);
+    router.push(`/card-choices/${encodeURIComponent(name)}`);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -38,7 +47,11 @@ const CommandersSearch: FC<CommandersSearchProps> = ({ initialCommander }) => {
           <div className={styles.info}>Searching...</div>
         ) : data?.length ? (
           data.map(({ name, identity }) => (
-            <div className={styles.item} key={name}>
+            <div
+              className={styles.item}
+              key={name}
+              onMouseDown={getHandleClick(name)}
+            >
               <span>{name}</span>
               <ManaContainer size={16}>{identity}</ManaContainer>
             </div>
