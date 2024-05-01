@@ -29,6 +29,7 @@ const Commanders: FC<CommandersProps> = () => (
 
 export const getServerSideProps = wrapper.getServerSideProps<CommandersProps>(
   store => async context => {
+    const start = Date.now();
     const baseProps = parseBaseContext(context);
 
     const { filters } = store.getState() as RootState;
@@ -47,6 +48,8 @@ export const getServerSideProps = wrapper.getServerSideProps<CommandersProps>(
       ...store.dispatch(commandersApi.util.getRunningQueriesThunk()),
       ...store.dispatch(analyticsApi.util.getRunningQueriesThunk()),
     ]);
+
+    baseProps.serverRenderTime += Math.round(Date.now() - start) / 1000;
 
     return {
       props: {

@@ -186,6 +186,11 @@ export class CommandersService {
         name: true,
         identity: true,
       },
+      orderBy: {
+        decks: {
+          _count: 'desc',
+        },
+      },
     });
 
     return commanders;

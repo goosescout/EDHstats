@@ -16,3 +16,8 @@ export type GetCommandersParams = TournamentParams;
 export type GetCommanderParams = GetCommandersParams & {
   name: string;
 };
+
+export type CommanderBrief = {
+  name: string;
+  identity: string;
+};

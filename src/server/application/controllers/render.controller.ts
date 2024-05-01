@@ -13,4 +13,10 @@ export class RenderController {
   commanders() {
     return {};
   }
+
+  @Get('card-choices')
+  @Render('card-choices')
+  cardChoices() {
+    return {};
+  }
 }
