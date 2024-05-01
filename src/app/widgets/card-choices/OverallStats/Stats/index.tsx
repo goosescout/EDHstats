@@ -117,6 +117,7 @@ const Stats: FC<StatsProps> = ({ name }) => {
             );
 
           const isBelowAverage = averageStats[averageKey] > commanderStats[key];
+
           const color =
             (isBelowAverage && key === 'winrate') ||
             (!isBelowAverage && key === 'drawrate')
@@ -124,11 +125,15 @@ const Stats: FC<StatsProps> = ({ name }) => {
               : 'green';
           const avgValue = (averageStats[averageKey] * 100).toFixed(2);
 
+          let prefix: string;
+          if (value === avgValue) prefix = 'equals';
+          else if (isBelowAverage) prefix = 'below';
+          else prefix = 'above';
+
           return (
             <span key={key}>
               <span data-color={color}>{value}%</span>
-              {averageKey &&
-                ` (${isBelowAverage ? 'below' : 'above'} ${avgValue}% total avg)`}
+              {averageKey && ` (${prefix} ${avgValue}% total avg)`}
             </span>
           );
         })}

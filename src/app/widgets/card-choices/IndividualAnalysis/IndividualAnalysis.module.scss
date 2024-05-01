@@ -16,6 +16,11 @@
   width: fit-content;
 
   margin-top: 16px;
+
+  &[data-loading="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 .keys {

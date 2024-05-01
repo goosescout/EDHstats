@@ -148,7 +148,8 @@ const List = () => {
     [averageStats?.winrate, columns, filteredCommanders, getHandleRowClick],
   );
 
-  if (isLoading) return <span className={styles.loading}>Loading...</span>;
+  if (isLoading)
+    return <span className={styles['loading-message']}>Loading...</span>;
 
   return (
     <Table

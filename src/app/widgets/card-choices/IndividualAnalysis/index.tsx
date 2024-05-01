@@ -41,14 +41,18 @@ const stats: StatsDetails[] = [
 const IndividualAnalysis: FC<IndividualAnalysisProps> = ({ name }) => {
   const debouncedParams = useTournamentFilters();
 
-  const { data: detailedStats } = useGetCommanderStatsQuery({
-    name,
-    ...debouncedParams,
-  });
-  const { data: averageStats } = useGetCommanderQuery({
-    name,
-    ...debouncedParams,
-  });
+  const { data: detailedStats, isFetching: isDetailedFetching } =
+    useGetCommanderStatsQuery({
+      name,
+      ...debouncedParams,
+    });
+  const { data: averageStats, isFetching: isAverageFetching } =
+    useGetCommanderQuery({
+      name,
+      ...debouncedParams,
+    });
+
+  const isLoading = isDetailedFetching || isAverageFetching;
 
   if (!detailedStats || !averageStats) return null;
 
@@ -56,7 +60,7 @@ const IndividualAnalysis: FC<IndividualAnalysisProps> = ({ name }) => {
     <div className={styles.wrapper}>
       <h2>Individual card analysis</h2>
 
-      <div className={styles.info}>
+      <div className={styles.info} data-loading={isLoading}>
         <div className={styles.keys}>
           {stats.map(({ name, tooltipText, key }) => (
             <div key={key}>
@@ -69,14 +73,14 @@ const IndividualAnalysis: FC<IndividualAnalysisProps> = ({ name }) => {
         <div className={styles.values}>
           {stats.map(({ key }) => {
             if (key === 'decks') {
-              const percent = (
-                (averageStats[key] / averageStats[key]) *
-                100
-              ).toFixed(2);
+              const percent =
+                averageStats[key] > 0
+                  ? ((detailedStats[key] / averageStats[key]) * 100).toFixed(2)
+                  : '100.00';
 
               return (
                 <span key={key}>
-                  {averageStats[key]} ({percent}% of all {averageStats[key]}{' '}
+                  {detailedStats[key]} ({percent}% of all {averageStats[key]}{' '}
                   decks available)
                 </span>
               );
