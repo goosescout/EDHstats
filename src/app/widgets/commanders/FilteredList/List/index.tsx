@@ -42,8 +42,11 @@ const List = () => {
   const debouncedParams = useTournamentFilters();
 
   const { data: averageStats } = useGetAverageStatsQuery(debouncedParams);
-  const { data: commanders, isFetching } =
-    useGetCommandersQuery(debouncedParams);
+  const {
+    data: commanders,
+    isFetching,
+    isLoading,
+  } = useGetCommandersQuery(debouncedParams);
 
   const getHandleRowClick = useCallback(
     (commander: Commander) => () =>
@@ -52,7 +55,7 @@ const List = () => {
   );
 
   const filteredCommanders = useMemo(() => {
-    if (!commanders) return null;
+    if (!commanders) return [];
 
     return commanders
       .filter(commander => {
@@ -93,10 +96,10 @@ const List = () => {
 
   const rows = useMemo(
     () =>
-      filteredCommanders?.map((commander, index) => (
+      filteredCommanders.map((commander, index) => (
         <Row
           columns={columns}
-          key={index}
+          key={commander.name}
           onClick={getHandleRowClick(commander)}
         >
           <span key={`${columns[0].key}_${index}`}>{index + 1}</span>
@@ -141,9 +144,11 @@ const List = () => {
             </span>
           </WithTableDivider>
         </Row>
-      )) ?? [],
+      )),
     [averageStats?.winrate, columns, filteredCommanders, getHandleRowClick],
   );
+
+  if (isLoading) return <span className={styles.loading}>Loading...</span>;
 
   return (
     <Table

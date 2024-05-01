@@ -1,3 +1,15 @@
+.loading {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+  margin-top: 32px;
+
+  font-family: $outfit-medium;
+  font-size: 20px;
+  opacity: 0.5;
+}
+
 .table {
   width: 100%;
 
