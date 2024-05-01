@@ -6,6 +6,7 @@ export class CardsDto {
     description: 'List of included cards',
     example: ["Mind's Desire", 'Brainstorm'],
     type: [String],
+    required: false,
   })
   @IsArray()
   @IsString({ each: true })
@@ -15,6 +16,7 @@ export class CardsDto {
     description: 'List of excluded cards',
     example: ['Narset, Parter of Veils', 'Dockside Extortionist'],
     type: [String],
+    required: false,
   })
   @IsArray()
   @IsString({ each: true })
