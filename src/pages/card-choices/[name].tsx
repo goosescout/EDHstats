@@ -16,6 +16,7 @@ import useTournamentFilters from '@app/utils/hooks/useTournamentFilters';
 import parseBaseContext from '@app/utils/parseBaseContext';
 import { BasePageProps } from '@app/utils/types';
 import CommandersSearch from '@app/widgets/card-choices/CommandersSearch';
+import IndividualAnalysis from '@app/widgets/card-choices/IndividualAnalysis';
 import OverallStats from '@app/widgets/card-choices/OverallStats';
 
 type CommanderAnalyticsProps = BasePageProps;
@@ -49,7 +50,10 @@ const CommanderAnalytics: FC<CommanderAnalyticsProps> = () => {
           different name
         </div>
       ) : (
-        <OverallStats name={name} identity={data?.identity} />
+        <>
+          <OverallStats name={name} identity={data?.identity} />
+          <IndividualAnalysis name={name} />
+        </>
       )}
     </Page>
   );

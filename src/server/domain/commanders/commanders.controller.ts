@@ -34,7 +34,7 @@ export class CommandersController {
     summary: 'Get all commanders from tournaments with specified parameters',
   })
   @ApiOkResponse({
-    description: 'Commanders successfully fetched',
+    description: 'List of commanders and their stats',
     type: Commander,
     isArray: true,
   })
@@ -61,7 +61,7 @@ export class CommandersController {
     required: false,
   })
   @ApiOkResponse({
-    description: 'Commanders successfully fetched',
+    description: 'List of commanders',
     type: CommanderBrief,
     isArray: true,
   })
@@ -84,7 +84,7 @@ export class CommandersController {
     example: 'Kess, Dissident Mage',
   })
   @ApiOkResponse({
-    description: 'Commander successfully fetched',
+    description: 'Commander and their stats',
     type: Commander,
   })
   @ApiBadRequestResponse({
@@ -120,7 +120,8 @@ export class CommandersController {
     example: 'Kess, Dissident Mage',
   })
   @ApiOkResponse({
-    description: 'Commander image successfully fetched',
+    description:
+      'List of commander images (or a single image if not partners or a flip card)',
     type: String,
     isArray: true,
   })

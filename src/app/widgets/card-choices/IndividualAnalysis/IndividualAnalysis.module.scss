@@ -1,0 +1,15 @@
+.wrapper {
+  margin-top: 48px;
+
+  > h2 {
+    font-family: $sf-pro-display-bold;
+    font-size: 32px;
+  }
+}
+
+.info {
+  background-color: $light-gray;
+  border-radius: 24px;
+
+  display: flex;
+}

@@ -1,3 +1,3 @@
 import { TournamentParamsDto } from '@server/domain/shared/dtos/tournamentParams.dto';
 
-export class GetAverageStatsParamsDto extends TournamentParamsDto {}
+export class GetCommanderStatsDto extends TournamentParamsDto {}
