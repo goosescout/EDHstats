@@ -128,7 +128,7 @@ const Stats: FC<StatsProps> = ({ name }) => {
             <span key={key}>
               <span data-color={color}>{value}%</span>
               {averageKey &&
-                ` (${isBelowAverage ? 'below' : 'above'} ${avgValue} total avg)`}
+                ` (${isBelowAverage ? 'below' : 'above'} ${avgValue}% total avg)`}
             </span>
           );
         })}
