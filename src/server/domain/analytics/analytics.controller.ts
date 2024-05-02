@@ -47,7 +47,7 @@ export class AnalyticsController {
   @ApiBadRequestResponse({
     description: 'Some of the provided parameters are invalid',
   })
-  @Get('average-stats')
+  @Get('/average-stats')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
   async getAverageStats(

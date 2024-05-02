@@ -7,6 +7,7 @@ import Next from 'next';
 
 import { RenderController } from '@server/application/controllers/render.controller';
 import { AnalyticsModule } from '@server/domain/analytics/analytics.module';
+import { AuthModule } from '@server/domain/auth/auth.module';
 import { CommandersModule } from '@server/domain/commanders/commanders.module';
 
 import { SchedulerService } from './infrastructure/schedule/scheduler.service';
@@ -26,6 +27,7 @@ import { SchedulerService } from './infrastructure/schedule/scheduler.service';
     ScheduleModule.forRoot(),
     CommandersModule,
     AnalyticsModule,
+    AuthModule,
   ],
   controllers: [RenderController],
   providers: [SchedulerService],

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class CardsDto {
   @ApiProperty({
@@ -10,6 +10,7 @@ export class CardsDto {
   })
   @IsArray()
   @IsString({ each: true })
+  @IsOptional()
   included!: string[];
 
   @ApiProperty({
@@ -20,5 +21,6 @@ export class CardsDto {
   })
   @IsArray()
   @IsString({ each: true })
+  @IsOptional()
   excluded!: string[];
 }

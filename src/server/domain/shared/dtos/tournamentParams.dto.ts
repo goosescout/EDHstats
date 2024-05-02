@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsPositive, Min } from 'class-validator';
+import { IsDate, IsOptional, IsPositive, Min } from 'class-validator';
 
 import { IsLessThanOrEqual } from '@server/infrastructure/validation/decorators/IsLessThanOrEqual.decorator';
 
@@ -15,6 +15,7 @@ export class TournamentParamsDto {
   @IsDate({
     message: 'dateAfter must be a valid string Date representation',
   })
+  @IsOptional()
   dateAfter: Date = new Date(0);
 
   @ApiProperty({
@@ -24,6 +25,7 @@ export class TournamentParamsDto {
   })
   @IsLessThanOrEqual('sizeMax')
   @Min(0)
+  @IsOptional()
   sizeMin: number = 0;
 
   @ApiProperty({
@@ -32,6 +34,7 @@ export class TournamentParamsDto {
     required: false,
   })
   @Min(0)
+  @IsOptional()
   sizeMax: number = INT4_MAX;
 
   @ApiProperty({
@@ -40,5 +43,6 @@ export class TournamentParamsDto {
     required: false,
   })
   @IsPositive()
+  @IsOptional()
   topCut: number = INT4_MAX;
 }

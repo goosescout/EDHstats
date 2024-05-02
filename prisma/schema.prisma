@@ -24,7 +24,7 @@ model Deck {
   date   DateTime
   price  Float
 
-  winrate Float
+  winrate  Float
   drawrate Float
 
   commander     Commander @relation(fields: [commanderName], references: [name])
@@ -41,7 +41,15 @@ model Tournament {
 }
 
 model Commander {
-  name     String @id
-  identity String
-  decks    Deck[]
+  name        String @id
+  identity    String
+  decks       Deck[]
+  favoritedBy User[]
+}
+
+model User {
+  id                 Int         @id @default(autoincrement())
+  username           String
+  password           String
+  favoriteCommanders Commander[]
 }
