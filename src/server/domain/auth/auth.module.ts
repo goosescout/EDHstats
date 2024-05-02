@@ -5,9 +5,11 @@ import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from '@server/domain/users/users.module';
 import { jwtSecret, jwtExpiresIn } from '@server/infrastructure/constants';
 
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { LocalStrategy } from './local.strategy';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import { LocalStrategy } from './local.strategy';
       signOptions: { expiresIn: jwtExpiresIn },
     }),
   ],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

@@ -174,8 +174,65 @@ export class CommandersService {
     };
   }
 
+  async getFavoriteCommanders(userId: number): Promise<CommanderBriefModel[]> {
+    return this.prisma.commander.findMany({
+      where: {
+        favoritedBy: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+    });
+  }
+
+  async toggleCommanderFavorite(name: string, userId: number) {
+    const commander = await this.prisma.commander.findUnique({
+      where: {
+        name,
+      },
+      include: {
+        favoritedBy: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    const isFavorite = commander?.favoritedBy.some(user => user.id === userId);
+
+    if (isFavorite) {
+      await this.prisma.commander.update({
+        where: {
+          name,
+        },
+        data: {
+          favoritedBy: {
+            disconnect: {
+              id: userId,
+            },
+          },
+        },
+      });
+    } else {
+      await this.prisma.commander.update({
+        where: {
+          name,
+        },
+        data: {
+          favoritedBy: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      });
+    }
+  }
+
   async searchCommanders(query: string): Promise<CommanderBriefModel[]> {
-    const commanders = await this.prisma.commander.findMany({
+    return this.prisma.commander.findMany({
       where: {
         name: {
           contains: query,
@@ -192,8 +249,6 @@ export class CommandersService {
         },
       },
     });
-
-    return commanders;
   }
 
   async getCommanderImages(name: string): Promise<string[] | null> {

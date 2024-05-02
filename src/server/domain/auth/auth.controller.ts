@@ -4,9 +4,9 @@ import { hash } from 'bcrypt';
 import { UsersService } from '@server/domain/users/users.service';
 
 import { SignupDto } from './dtos/signup.dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('/auth')
 export class AuthController {

@@ -2,21 +2,28 @@ import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import {
   Controller,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
+  Post,
   Query,
+  Req,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
   ApiQuery,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 
+import { JwtAuthGuard } from '@server/domain/auth/guards/jwt-auth.guard';
 import { TTL_1_DAY } from '@server/infrastructure/constants';
 
 import { GetCommandersParamsDto } from './dtos/getCommandersParams.dto';
@@ -72,6 +79,21 @@ export class CommandersController {
     @Query('query') query: string,
   ): Promise<CommanderBrief[]> {
     return await this.commandersService.searchCommanders(query);
+  }
+
+  @ApiOperation({
+    summary: 'Get favorite commanders of the authenticated user',
+  })
+  @ApiOkResponse({
+    description: 'List of brief description of favorite commanders',
+    type: CommanderBrief,
+    isArray: true,
+  })
+  @Get('/favorite')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async getFavoriteCommanders(@Req() req: any): Promise<CommanderBrief[]> {
+    return await this.commandersService.getFavoriteCommanders(req.user.id);
   }
 
   @ApiOperation({
@@ -137,5 +159,25 @@ export class CommandersController {
     if (!images) throw new NotFoundException('Commander not found');
 
     return images;
+  }
+
+  @ApiOperation({
+    summary: 'Toggle commander as favorite for the authenticated user',
+  })
+  @ApiParam({
+    name: 'name',
+    description: 'Commander name',
+    example: 'Kess, Dissident Mage',
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'If commander exists, its favorite status was toggled',
+  })
+  @ApiBearerAuth()
+  @HttpCode(204)
+  @Post('/:name/favorite')
+  @UseGuards(JwtAuthGuard)
+  async toggleCommanderFavorite(@Param('name') name: string, @Req() req: any) {
+    await this.commandersService.toggleCommanderFavorite(name, req.user.id);
   }
 }
