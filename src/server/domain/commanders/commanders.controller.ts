@@ -23,6 +23,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
+import { AllowAny } from '@server/domain/auth/decorators/allowAny.decorator';
 import { JwtAuthGuard } from '@server/domain/auth/guards/jwt-auth.guard';
 import { TTL_1_DAY } from '@server/infrastructure/constants';
 
@@ -51,6 +52,7 @@ export class CommandersController {
   @Get()
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
+  @AllowAny()
   async getCommanders(
     @Query() tournamentParams: GetCommandersParamsDto,
   ): Promise<Commander[]> {
@@ -75,6 +77,7 @@ export class CommandersController {
   @Get('/search')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
+  @AllowAny()
   async searchCommanders(
     @Query('query') query: string,
   ): Promise<CommanderBrief[]> {
@@ -118,6 +121,7 @@ export class CommandersController {
   @Get('/:name')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
+  @AllowAny()
   async getCommander(
     @Param('name') name: string,
     @Query() tournamentParams: GetCommandersParamsDto,
@@ -153,6 +157,7 @@ export class CommandersController {
   @Get('/:name/images')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
+  @AllowAny()
   async getCommanderImages(@Param('name') name: string): Promise<string[]> {
     const images = await this.commandersService.getCommanderImages(name);
 

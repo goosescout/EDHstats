@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
+import { AllowAny } from '@server/domain/auth/decorators/allowAny.decorator';
 import { TTL_1_DAY } from '@server/infrastructure/constants';
 
 import { CardsDto } from './dtos/cards.dto';
@@ -75,6 +76,7 @@ export class AnalyticsController {
   @Get('/:name/cards')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
+  @AllowAny()
   async getCards(
     @Param('name') name: string,
     @Query() tournamentParams: GetCardsParamsDto,
@@ -106,6 +108,7 @@ export class AnalyticsController {
   })
   @Post('/:name')
   @HttpCode(200)
+  @AllowAny()
   async getCommanderStatsWithCards(
     @Param('name') name: string,
     @Query() tournamentParams: GetCommanderStatsDto,
