@@ -45,7 +45,8 @@ export const getServerSideProps = wrapper.getServerSideProps<CommandersProps>(
 
     store.dispatch(getCommanders.initiate(tournamentParams));
     store.dispatch(getAverageStats.initiate(tournamentParams));
-    store.dispatch(getFavorites.initiate());
+    if (store.getState().common.id !== null)
+      store.dispatch(getFavorites.initiate());
 
     await Promise.all([
       ...store.dispatch(commandersApi.util.getRunningQueriesThunk()),

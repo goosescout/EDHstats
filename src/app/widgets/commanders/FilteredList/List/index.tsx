@@ -39,6 +39,7 @@ const List = () => {
 
   const { search, favoritesOnly, mana, winrate, decks, uniqueCards } =
     useAppSelector(({ filters }) => filters);
+  const isLoggedIn = useAppSelector(({ common }) => common.id !== null);
 
   const { columns, sortColumn, handleSort } = useSortedColumns(initialColumns);
 
@@ -49,11 +50,9 @@ const List = () => {
     isLoading: isAverageLoading,
     isFetching: isAverageFetching,
   } = useGetAverageStatsQuery(debouncedParams);
-  const {
-    data: favorites,
-    isLoading: isFavoritesLoading,
-    isFetching: isFavoritesFetching,
-  } = useGetFavoritesQuery();
+  const { data: favorites } = useGetFavoritesQuery(undefined, {
+    skip: !isLoggedIn,
+  });
   const {
     data: commanders,
     isFetching: isCommandersFetching,
@@ -182,11 +181,9 @@ const List = () => {
     ],
   );
 
-  const isLoading =
-    isCommandersLoading || isAverageLoading || isFavoritesLoading;
+  const isLoading = isCommandersLoading || isAverageLoading;
 
-  const isFetching =
-    isCommandersFetching || isAverageFetching || isFavoritesFetching;
+  const isFetching = isCommandersFetching || isAverageFetching;
 
   if (isLoading)
     return <span className={styles['loading-message']}>Loading...</span>;
