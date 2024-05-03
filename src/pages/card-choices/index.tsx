@@ -23,9 +23,9 @@ const CardChoices: FC<BasePageProps> = () => (
 );
 
 export const getServerSideProps = wrapper.getServerSideProps<CardChoicesProps>(
-  () => async context => {
+  store => async context => {
     const start = Date.now();
-    const baseProps = parseBaseContext(context);
+    const baseProps = await parseBaseContext(context, store);
 
     baseProps.serverRenderTime += Math.round(Date.now() - start) / 1000;
 
