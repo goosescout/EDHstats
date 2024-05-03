@@ -2,9 +2,9 @@
   "name": "edhstats",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Michael Gurevich",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "scripts": {
     "build": "pnpm run build:next && pnpm run build:nest",
     "build:next": "next build",
