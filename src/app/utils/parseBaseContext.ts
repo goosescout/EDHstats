@@ -11,9 +11,8 @@ const parseBaseContext = async (
   context: GetServerSidePropsContext,
   store: any,
 ): Promise<BasePageProps> => {
-  const authHeader = context.req.headers.authorization;
-  if (authHeader) {
-    const token = authHeader.split(' ')[1];
+  const token = context.req.cookies.token;
+  if (token) {
     const { username, sub } = token
       ? parseServerToken(token)
       : { username: null, sub: null };

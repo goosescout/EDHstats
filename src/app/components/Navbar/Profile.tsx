@@ -8,7 +8,6 @@ import styles from './Profile.module.scss';
 
 export const Profile = () => {
   const { username } = useAppSelector(({ common }) => common);
-  console.log(username);
 
   return (
     <Link className={styles.wrapper} href="/">
