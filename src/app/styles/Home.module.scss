@@ -1,21 +1,129 @@
 .home-page {
-  color: $black;
+  margin-top: 74px;
+
+  width: 100%;
+}
+
+.top {
+  background: rgb(94,64,193);
+  background: linear-gradient(35deg, rgba(94,64,193,1) 0%, rgba(186,47,245,1) 60%, rgba(148,0,255,1) 100%);
+
+  width: 100%;
+  padding: 16px 0;
+}
+
+.top-wrapper {
+  max-width: 1440px;
+
+  margin: 0 auto;
+  position: relative;
 
   > h1 {
-    font-family: $sf-pro-display-bold;
-    font-size: 52px;
-    margin-bottom: 16px;
+    width: min-content;
+
+    font-family: $outfit-bold;
+    font-size: 260px;
+    color: $white;
+    text-transform: uppercase;
+    line-height: 200px;
+    letter-spacing: -10px;
   }
 
-  > p {
-    max-width: 700px;
+  > .container {
+    background-color: rgba($gray, 0.8);
+    color: $black;
+    border-radius: 40px;
+    backdrop-filter: blur(40px);
+    box-shadow: 4px 8px 20px 8px rgba($black, 0.15);
+
+    position: absolute;
+    right: 74px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 282px;
+    height: 400px;
+    padding: 24px 16px;
+    box-sizing: border-box;
+
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+
+    > h2 {
+      font-family: $outfit-semibold;
+      font-size: 40px;
+      text-align: center;
+
+      margin-bottom: 24px;
+    }
+
+    > p {
+      font-family: $outfit-medium;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    > button {
+      cursor: pointer;
+      background-color: $black;
+      border: none;
+      border-radius: 20px;
+
+      width: 100%;
+      height: 40px;
+
+      margin-top: auto;
+
+      font-family: $outfit-medium;
+      font-size: 16px;
+      color: $white;
+
+      transition: background-color $basic-transition;
+
+      &:hover {
+        background-color: rgba($black, 0.85);
+      }
+    }
+  }
+}
+
+.main {
+  background-color: $white;
+
+  margin-top: 32px;
+}
+
+.main-wrapper {
+  max-width: 1440px;
+  padding: 32px 0;
+
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  h2 {
+    font-family: $outfit-semibold;
+    font-size: 64px;
+    color: $black;
+  }
+
+  p {
+    width: 700px;
+
     font-family: $outfit-medium;
-    font-size: 16px;
-
-    margin-bottom: 32px;
+    font-size: 20px;
+    color: $black;
   }
 
-  > .logout {
+  .logout {
     width: 200px;
   }
 }

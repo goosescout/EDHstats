@@ -1,8 +1,9 @@
 import { FC } from 'react';
 
+import { useRouter } from 'next/router';
+
 import LoginContainer from '@app/components/LoginContainer';
 import Logout from '@app/components/Logout';
-import Page from '@app/components/Page';
 import { useAppSelector } from '@app/store';
 import { wrapper } from '@app/store/store';
 import styles from '@app/styles/Home.module.scss';
@@ -12,20 +13,64 @@ import { BasePageProps } from '@app/utils/types';
 type HomeProps = BasePageProps;
 
 const Home: FC<HomeProps> = () => {
+  const router = useRouter();
+
   const { username } = useAppSelector(({ common }) => common);
 
+  const handleCardChoicesClick = () => router.push('/card-choices');
+
+  const isLoggedIn = !!username;
+
   return (
-    <Page className={styles['home-page']}>
-      <h1>Home</h1>
+    <div className={styles['home-page']}>
+      <div className={styles.top}>
+        <div className={styles['top-wrapper']}>
+          <h1>Your winning move</h1>
 
-      <p>
-        {username
-          ? `Welcome, ${username}!`
-          : 'The most profound EDH analysis tool'}
-      </p>
+          <div className={styles.container}>
+            <h2>Win more with statistics</h2>
 
-      {username ? <Logout className={styles.logout} /> : <LoginContainer />}
-    </Page>
+            <p>
+              Analyze card choices, look for winning commanders and find decks
+              that fit into your budget.
+            </p>
+
+            <button onClick={handleCardChoicesClick}>
+              Go to card choices →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.main}>
+        <div className={styles['main-wrapper']}>
+          <div>
+            <h2>Welcome to world of stats!</h2>
+
+            <p>
+              The most profound EDH analysis tool. This website grants you
+              access to a vast database of EDH decks, cards and statistics. You
+              can use it to analyze card choices, look for winning commanders
+              and find decks that fit into your budget.
+            </p>
+
+            {isLoggedIn ? (
+              <>
+                <p>Thanks for using our service, {username}!</p>
+                <Logout className={styles.logout} />
+              </>
+            ) : (
+              <p>
+                Login to get access to all features and start winning more
+                games!
+              </p>
+            )}
+          </div>
+
+          {!isLoggedIn && <LoginContainer />}
+        </div>
+      </div>
+    </div>
   );
 };
 

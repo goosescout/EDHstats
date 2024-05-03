@@ -5,8 +5,6 @@ import Head from 'next/head';
 import Footer from '@app/components/Footer';
 import Navbar from '@app/components/Navbar';
 
-import styles from './Layout.module.scss';
-
 type LayoutProps = {
   serverRenderTime?: number;
   children: ReactNode;
@@ -21,7 +19,7 @@ const Layout: FC<LayoutProps> = ({ serverRenderTime, children }) => {
 
       <Navbar />
 
-      <div className={styles.wrapper}>{children}</div>
+      {children}
 
       <Footer serverRenderTime={serverRenderTime} />
     </>
