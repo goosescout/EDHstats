@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import LoginContainer from '@app/components/LoginContainer';
+import Logout from '@app/components/Logout';
 import Page from '@app/components/Page';
 import { useAppSelector } from '@app/store';
 import { wrapper } from '@app/store/store';
@@ -23,7 +24,7 @@ const Home: FC<HomeProps> = () => {
           : 'The most profound EDH analysis tool'}
       </p>
 
-      {!username && <LoginContainer />}
+      {username ? <Logout className={styles.logout} /> : <LoginContainer />}
     </Page>
   );
 };

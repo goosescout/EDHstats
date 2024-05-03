@@ -1,0 +1,15 @@
+.wrapper {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  text-decoration: none;
+  color: $black;
+
+  > span {
+    font-family: $sf-pro-display-medium;
+    font-size: 24px;
+  }
+}

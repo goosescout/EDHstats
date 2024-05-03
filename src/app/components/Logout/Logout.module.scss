@@ -1,0 +1,7 @@
+.button[data-type="primary"] {
+  background-color: $red;
+
+  &:hover {
+    background-color: rgba($red, 0.9);
+  }
+}

@@ -51,6 +51,7 @@ export class AnalyticsController {
   @Get('/average-stats')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
+  @AllowJwtAny()
   async getAverageStats(
     @Query() tournamentParams: GetAverageStatsParamsDto,
   ): Promise<AverageStats> {

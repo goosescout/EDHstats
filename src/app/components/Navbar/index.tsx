@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import HomeLink from '@app/components/Navbar/HomeLink';
 
 import styles from './Navbar.module.scss';
+import Profile from './Profile';
 
 type LinkDetails = {
   text: string;
@@ -41,6 +42,8 @@ const Navbar = () => {
             {text}
           </Link>
         ))}
+
+        <Profile />
       </div>
     </nav>
   );
