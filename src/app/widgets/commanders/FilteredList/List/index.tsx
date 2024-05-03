@@ -8,13 +8,17 @@ import Separator from '@app/components/Separator';
 import Table from '@app/components/Table';
 import { useAppSelector } from '@app/store';
 import { useGetAverageStatsQuery } from '@app/store/api/analytics';
-import { useGetCommandersQuery } from '@app/store/api/commanders';
+import {
+  useGetCommandersQuery,
+  useGetFavoritesQuery,
+} from '@app/store/api/commanders';
 import { Commander } from '@app/store/api/commanders/types';
 import useTournamentFilters from '@app/utils/hooks/useTournamentFilters';
 import { Column } from '@app/widgets/commanders/FilteredList/List/types';
 
 import useSortedColumns from './hooks/useSortedColumns';
 
+import FavoritesToggle from './FavoriteToggle';
 import styles from './List.module.scss';
 import ManaContainer from './ManaContainer';
 import Row from './Row';
@@ -27,25 +31,33 @@ const initialColumns: Column[] = [
   { name: 'Decks', key: 'decks', width: 52, sort: 'none' },
   { name: 'Autoincludes', key: 'autoincludes', width: 84, sort: 'none' },
   { name: 'Unique', key: 'unique', width: 60, sort: 'none' },
-  { name: 'Price', key: 'avgPrice', width: 108, sort: 'none' },
+  { name: 'Price', key: 'avgPrice', width: 128, sort: 'none' },
 ];
 
 const List = () => {
   const router = useRouter();
 
-  const { search, mana, winrate, decks, uniqueCards } = useAppSelector(
-    ({ filters }) => filters,
-  );
+  const { search, favoritesOnly, mana, winrate, decks, uniqueCards } =
+    useAppSelector(({ filters }) => filters);
 
   const { columns, sortColumn, handleSort } = useSortedColumns(initialColumns);
 
   const debouncedParams = useTournamentFilters();
 
-  const { data: averageStats } = useGetAverageStatsQuery(debouncedParams);
+  const {
+    data: averageStats,
+    isLoading: isAverageLoading,
+    isFetching: isAverageFetching,
+  } = useGetAverageStatsQuery(debouncedParams);
+  const {
+    data: favorites,
+    isLoading: isFavoritesLoading,
+    isFetching: isFavoritesFetching,
+  } = useGetFavoritesQuery();
   const {
     data: commanders,
-    isFetching,
-    isLoading,
+    isFetching: isCommandersFetching,
+    isLoading: isCommandersLoading,
   } = useGetCommandersQuery(debouncedParams);
 
   const getHandleRowClick = useCallback(
@@ -61,6 +73,8 @@ const List = () => {
       .filter(commander => {
         if (mana.length > 0 && !isEqual(mana, commander.identity.split('')))
           return false;
+
+        if (favoritesOnly && !favorites?.includes(commander.name)) return false;
 
         const winrateMin = Number(winrate[0]) / 100;
         const winrateMax = winrate[1] ? Number(winrate[1]) / 100 : 1;
@@ -92,7 +106,17 @@ const List = () => {
 
         return b[sortColumn.key] - a[sortColumn.key];
       });
-  }, [commanders, decks, mana, search, sortColumn, uniqueCards, winrate]);
+  }, [
+    commanders,
+    decks,
+    favoritesOnly,
+    favorites,
+    mana,
+    search,
+    sortColumn,
+    uniqueCards,
+    winrate,
+  ]);
 
   const rows = useMemo(
     () =>
@@ -142,11 +166,27 @@ const List = () => {
             <span key={`${columns[7].key}_${index}`}>
               ${commander.avgPrice.toFixed(2)}
             </span>
+            <FavoritesToggle
+              isFavorite={favorites?.includes(commander.name) ?? false}
+              name={commander.name}
+            />
           </WithTableDivider>
         </Row>
       )),
-    [averageStats?.winrate, columns, filteredCommanders, getHandleRowClick],
+    [
+      averageStats?.winrate,
+      columns,
+      favorites,
+      filteredCommanders,
+      getHandleRowClick,
+    ],
   );
+
+  const isLoading =
+    isCommandersLoading || isAverageLoading || isFavoritesLoading;
+
+  const isFetching =
+    isCommandersFetching || isAverageFetching || isFavoritesFetching;
 
   if (isLoading)
     return <span className={styles['loading-message']}>Loading...</span>;

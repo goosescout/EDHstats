@@ -37,6 +37,42 @@ const commandersApi = baseApi.injectEndpoints({
     getImages: builder.query<string[], string>({
       query: name => `/commanders/${encodeURIComponent(name)}/images`,
     }),
+
+    getFavorites: builder.query<string[], void>({
+      query: () => '/commanders/favorite',
+      transformResponse: (response: CommanderBrief[]) =>
+        response.map(c => c.name),
+    }),
+
+    toggleFavorite: builder.mutation<void, string>({
+      query: name => ({
+        url: `/commanders/${encodeURIComponent(name)}/favorite`,
+        method: 'POST',
+      }),
+
+      async onQueryStarted(name, { queryFulfilled, dispatch }) {
+        const patchResult = dispatch(
+          commandersApi.util.updateQueryData(
+            'getFavorites',
+            undefined,
+            draft => {
+              const commander = draft.find(
+                commanderName => commanderName === name,
+              );
+
+              if (commander) draft.splice(draft.indexOf(commander), 1);
+              else draft.push(name);
+            },
+          ),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
   }),
 });
 
@@ -47,7 +83,14 @@ export const {
   useGetCommanderQuery,
   useSearchCommandersQuery,
   useGetImagesQuery,
+  useGetFavoritesQuery,
+  useToggleFavoriteMutation,
 } = commandersApi;
 
-export const { getCommanders, getCommander, searchCommanders, getImages } =
-  commandersApi.endpoints;
+export const {
+  getCommanders,
+  getCommander,
+  searchCommanders,
+  getImages,
+  getFavorites,
+} = commandersApi.endpoints;

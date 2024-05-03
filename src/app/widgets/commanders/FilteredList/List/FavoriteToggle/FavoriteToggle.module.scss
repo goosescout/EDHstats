@@ -1,0 +1,21 @@
+.toggle {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+
+  width: 25px;
+  height: 25px;
+  padding: 0;
+
+  margin-left: auto;
+
+  &[data-favorite="false"] {
+    svg {
+      path {
+        fill: none;
+        stroke: $purple;
+        stroke-width: 2px;
+      }
+    }
+  }
+}

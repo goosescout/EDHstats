@@ -9,6 +9,7 @@ const COLORS: ManaT[] = ['W', 'U', 'B', 'R', 'G', 'C'];
 const initialState: FiltersSlice = {
   search: '',
   mana: [],
+  favoritesOnly: false,
   winrate: ['0', '100'],
   decks: ['1', ''],
   autoincludes: ['0', ''],
@@ -31,6 +32,10 @@ const filtersSlice = createSlice({
       for (const color of COLORS)
         if (payload.includes(color)) result.push(color);
       state.mana = result;
+    },
+
+    setFavoritesOnly: (state, { payload }: PayloadAction<boolean>) => {
+      state.favoritesOnly = payload;
     },
 
     setWinrate: (state, { payload }: PayloadAction<[string, string]>) => {
@@ -71,6 +76,7 @@ const filtersSlice = createSlice({
 export const {
   setSearch,
   setMana,
+  setFavoritesOnly,
   setWinrate,
   setDecks,
   setAutoincludes,

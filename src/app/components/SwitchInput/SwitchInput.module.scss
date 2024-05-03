@@ -1,0 +1,51 @@
+.label {
+  > input {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+  }
+}
+
+.switch {
+  border-radius: 12.5px;
+  border: 0.833px solid $gray;
+  background-color: $light-gray;
+  transition:
+    border $basic-transition,
+    background-color $basic-transition;
+
+  width: 40px;
+  height: 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+
+  &::after {
+    border-radius: 50%;
+    border: 1px solid $gray;
+    background-color: $white;
+    transform: translateX(0);
+    transition:
+      transform 0.3s ease-in-out,
+      background-color $basic-transition,
+      border $basic-transition;
+
+    content: '';
+    width: 15px;
+    height: 15px;
+    box-sizing: border-box;
+
+    position: relative;
+    left: 2.5px;
+  }
+
+  input:checked + & {
+    background-color: $purple;
+    border-color: $purple;
+
+    &::after {
+      border-color: $white;
+      transform: translateX(20px);
+    }
+  }
+}

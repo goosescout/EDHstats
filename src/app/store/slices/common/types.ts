@@ -4,4 +4,5 @@ export type CommonSlice = {
   media: MediaT;
   username: string | null;
   id: number | null;
+  token: string | null;
 };

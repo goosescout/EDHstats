@@ -13,6 +13,7 @@ const initialState: CommonSlice = {
   media: queryMedia(),
   username,
   id: sub,
+  token: Cookies.get('token') ?? null,
 };
 
 const commonSlice = createSlice({
@@ -24,14 +25,18 @@ const commonSlice = createSlice({
     },
     setUser(
       state,
-      { payload }: PayloadAction<{ username: string; id: number }>,
+      {
+        payload,
+      }: PayloadAction<{ username: string; id: number; token: string }>,
     ) {
       state.username = payload.username;
       state.id = payload.id;
+      state.token = payload.token;
     },
     logout(state) {
       state.username = null;
       state.id = null;
+      state.token = null;
     },
   },
 });

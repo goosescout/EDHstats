@@ -4,6 +4,7 @@ export type FiltersSlice = {
   // Commander-specific filters
   search: string;
   mana: ManaT[];
+  favoritesOnly: boolean;
   winrate: [string, string];
   decks: [string, string];
   autoincludes: [string, string];

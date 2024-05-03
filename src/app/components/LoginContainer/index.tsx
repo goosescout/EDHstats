@@ -68,7 +68,7 @@ const LoginContainer: FC<LoginContainerProps> = ({ title }) => {
       const token: string = (response as any).data.accessToken;
       const { username, sub, exp } = parseToken(token);
       Cookies.set('token', token, { expires: new Date(exp * 1000) });
-      dispatch(setUser({ username, id: sub }));
+      dispatch(setUser({ username, id: sub, token }));
     }
   };
 

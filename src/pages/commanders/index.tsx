@@ -4,7 +4,10 @@ import { DateTime } from 'luxon';
 
 import Page from '@app/components/Page';
 import analyticsApi, { getAverageStats } from '@app/store/api/analytics';
-import commandersApi, { getCommanders } from '@app/store/api/commanders';
+import commandersApi, {
+  getCommanders,
+  getFavorites,
+} from '@app/store/api/commanders';
 import { wrapper } from '@app/store/store';
 import styles from '@app/styles/Commanders.module.scss';
 import parseBaseContext from '@app/utils/parseBaseContext';
@@ -42,6 +45,7 @@ export const getServerSideProps = wrapper.getServerSideProps<CommandersProps>(
 
     store.dispatch(getCommanders.initiate(tournamentParams));
     store.dispatch(getAverageStats.initiate(tournamentParams));
+    store.dispatch(getFavorites.initiate());
 
     await Promise.all([
       ...store.dispatch(commandersApi.util.getRunningQueriesThunk()),

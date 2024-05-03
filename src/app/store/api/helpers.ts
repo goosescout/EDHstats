@@ -2,6 +2,8 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 import { PORT, isServer } from '~/shared/constants/env';
 
+import { RootState } from '@app/store/store';
+
 export const BASE_URL = isServer ? `http://localhost:${PORT}/api/` : '/api/';
 
 type SchemaT<Keys extends string, Args extends Record<Keys, unknown>> = {
@@ -34,4 +36,15 @@ export const withQueryParams = <
 export const edhstatsBaseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   mode: 'cors',
+  prepareHeaders: (headers, api) => {
+    const {
+      common: { token },
+    } = api.getState() as RootState;
+
+    const next = new Headers(headers);
+
+    if (token) next.set('Authorization', `Bearer ${token}`);
+
+    return next;
+  },
 });

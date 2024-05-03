@@ -16,7 +16,7 @@ const parseBaseContext = async (
     const { username, sub } = token
       ? parseToken(token)
       : { username: null, sub: null };
-    await store.dispatch(setUser({ username, id: sub }));
+    await store.dispatch(setUser({ username, id: sub, token }));
   }
 
   return {
