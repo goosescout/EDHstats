@@ -1,73 +1,55 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# EDHstats
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Website and API for analyzing EDH decks
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Main features
 
-## Description
+### Commander's detailed stats
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Get commander's winrate, drawrate price and other stats based on the tournament filters of your choice.
 
-## Installation
+### Unique cards and autoincludes
 
-```bash
-$ pnpm install
-```
+The system analyses the number of unique cards and autoincludes each commander has, so that you can know what other people are playing.
 
-## Running the app
+### Individual card analysis
 
-```bash
-# development
-$ pnpm run start
+Analyse how individual cards impact the performance of your commander
 
-# watch mode
-$ pnpm run start:dev
+### All commanders in one place
 
-# production mode
-$ pnpm run start:prod
-```
+Scroll through our database and filter the commanders to find the one you want to build
 
-## Test
+## Website
 
-```bash
-# unit tests
-$ pnpm run test
+The website is accessible at [edhstats.onrender.com](https://edhstats.onrender.com/). It wraps many of the unique platform features into a stylish interface.
 
-# e2e tests
-$ pnpm run test:e2e
+## API
 
-# test coverage
-$ pnpm run test:cov
-```
+If you want to get full access to the database and do stuff that the website is not capable of, you can use the api at [edhstats.onrender.com/api](https://edhstats.onrender.com/). The documentation is available on the same route.
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Информация для курса "Веб-программирование"
 
-## Stay in touch
+**Автор**: Михаил Гуревич, M33001
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**Введение в доменную область**: Magic: The Gathering — настольная коллекционно-карточкая игра. Игра имеет множество форматов, но мы будем рассматривать только EDH (Elder Dragon Highlander), или, как его ещё называют, Commander.
 
-## License
+Колода в этом формате состоит из 100 карт, одна или две из которых являются **Коммандерами**. Карты имеют определённую **мана-стоимость** и **цвета**. Колоды играются в игре Free-for-all на 4 человек.
 
-Nest is [MIT licensed](LICENSE).
+Чтобы подробнее узнать про предметную область, можно ознакомиться с [Wiki по **Magic: The Gathering**](https://mtg-archive.fandom.com/wiki/EDH).
+
+### Entity Relation Diagram
+
+![ERD](https://github.com/is-web-y25/EDHstats/blob/main/ERD.png)
+
+- **Card** — карта в колоде. Имеет мана-стоимость и уникальное название.
+
+- **Tournament** — турнир. Имеет уникальный строковый идентификатор (`TID` взятый из api турнирной системы) и количество учатсников.
+
+- **Deck** — конкретная колода с турнира. Хранит id турнира, на котором ей играли, и количество побед, поражений и ничьих на этом турние. Также привязана к коммандеру. Содержит вспомогательные поля `winrate` и `drawrate` для ускорения обработки статистики.
+
+- **Commander** — коммандер. Связан со всеми колодами, которые его используют, а также содержит в свою цветовую принадлежность (`identity`). Также связан с пользователями, которые выбрали этого коммандера как избранного.
+
+- **User** — пользователь сайта. Содержит уникальное имя на сайте и хэш пароля. Привяз к коммандерам, которые пометил как избранные.
