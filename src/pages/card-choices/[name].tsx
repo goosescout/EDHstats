@@ -66,7 +66,7 @@ export const getServerSideProps =
   wrapper.getServerSideProps<CommanderAnalyticsProps>(
     store => async context => {
       const start = Date.now();
-      const baseProps = parseBaseContext(context);
+      const baseProps = await parseBaseContext(context, store);
 
       const name = context.params?.name as string;
 

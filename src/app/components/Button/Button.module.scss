@@ -1,6 +1,24 @@
 .button {
   cursor: pointer;
 
+  &[data-type="primary"] {
+    border-radius: 16px;
+    background-color: $purple;
+    border: none;
+
+    padding: 8px 16px;
+    width: 100%;
+
+    font-family: $outfit-medium;
+    font-size: 16px;
+    color: $white;
+    transition: background-color $basic-transition;
+
+    &:hover {
+      background-color: $magenta;
+    }
+  }
+
   &[data-type="secondary"] {
     background-color: transparent;
     border: none;

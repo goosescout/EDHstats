@@ -49,7 +49,7 @@ model Commander {
 
 model User {
   id                 Int         @id @default(autoincrement())
-  username           String
+  username           String      @unique
   password           String
   favoriteCommanders Commander[]
 }

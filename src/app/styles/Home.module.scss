@@ -1,4 +1,4 @@
-.commander-analytics-page {
+.home-page {
   color: $black;
 
   > h1 {
@@ -11,15 +11,7 @@
     max-width: 700px;
     font-family: $outfit-medium;
     font-size: 16px;
+
+    margin-bottom: 32px;
   }
-}
-
-.error {
-  color: $black;
-  font-family: $outfit-medium;
-  font-size: 20px;
-  text-align: center;
-
-  width: 100%;
-  margin-top: 32px;
 }

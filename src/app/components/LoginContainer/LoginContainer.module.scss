@@ -1,0 +1,61 @@
+.wrapper {
+  border-radius: 20px;
+  border: 2px solid $gray;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+  box-sizing: border-box;
+  width: 400px;
+  padding: 16px 24px;
+  
+  > span.title {
+    font-family: $sf-pro-display-bold;
+    font-size: 24px;
+  }
+
+  > form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    > label {
+      width: 100%;
+  
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+  
+      font-family: $sf-pro-display-medium;
+      font-size: 16px;
+  
+      > input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.selector {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+
+  margin-top: 16px;
+  
+  > span {
+    font-family: $sf-pro-display-medium;
+    font-size: 16px;
+  }
+}
+
+.error {
+  color: $red;
+  font-family: $sf-pro-display-medium;
+  font-size: 16px;
+
+  width: 100%;
+  text-align: center;
+}

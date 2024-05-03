@@ -23,7 +23,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { AllowAny } from '@server/domain/auth/decorators/allowAny.decorator';
+import { AllowJwtAny } from '@server/domain/auth/decorators/allowAny.decorator';
 import { JwtAuthGuard } from '@server/domain/auth/guards/jwt-auth.guard';
 import { TTL_1_DAY } from '@server/infrastructure/constants';
 
@@ -33,7 +33,7 @@ import { CommanderBrief } from './models/commanderBrief.model';
 
 import { CommandersService } from './commanders.service';
 
-@ApiTags('Commanders')
+@ApiTags("Commanders's")
 @Controller('/api/commanders')
 export class CommandersController {
   constructor(private commandersService: CommandersService) {}
@@ -52,7 +52,7 @@ export class CommandersController {
   @Get()
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
-  @AllowAny()
+  @AllowJwtAny()
   async getCommanders(
     @Query() tournamentParams: GetCommandersParamsDto,
   ): Promise<Commander[]> {
@@ -77,7 +77,7 @@ export class CommandersController {
   @Get('/search')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
-  @AllowAny()
+  @AllowJwtAny()
   async searchCommanders(
     @Query('query') query: string,
   ): Promise<CommanderBrief[]> {
@@ -105,11 +105,11 @@ export class CommandersController {
   })
   @ApiParam({
     name: 'name',
-    description: 'Commander name',
+    description: "Commander's name",
     example: 'Kess, Dissident Mage',
   })
   @ApiOkResponse({
-    description: 'Commander and their stats',
+    description: "Commander's and their stats",
     type: Commander,
   })
   @ApiBadRequestResponse({
@@ -121,7 +121,7 @@ export class CommandersController {
   @Get('/:name')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
-  @AllowAny()
+  @AllowJwtAny()
   async getCommander(
     @Param('name') name: string,
     @Query() tournamentParams: GetCommandersParamsDto,
@@ -142,7 +142,7 @@ export class CommandersController {
   })
   @ApiParam({
     name: 'name',
-    description: 'Commander name',
+    description: "Commander's name",
     example: 'Kess, Dissident Mage',
   })
   @ApiOkResponse({
@@ -157,7 +157,7 @@ export class CommandersController {
   @Get('/:name/images')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
-  @AllowAny()
+  @AllowJwtAny()
   async getCommanderImages(@Param('name') name: string): Promise<string[]> {
     const images = await this.commandersService.getCommanderImages(name);
 
@@ -171,7 +171,7 @@ export class CommandersController {
   })
   @ApiParam({
     name: 'name',
-    description: 'Commander name',
+    description: "Commander's name",
     example: 'Kess, Dissident Mage',
   })
   @ApiResponse({

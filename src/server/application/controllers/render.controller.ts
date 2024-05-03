@@ -1,33 +1,33 @@
 import { Controller, Get, Param, Render } from '@nestjs/common';
 
-import { AllowAny } from '@server/domain/auth/decorators/allowAny.decorator';
+import { AllowJwtAny } from '@server/domain/auth/decorators/allowAny.decorator';
 
 @Controller()
 export class RenderController {
   @Get()
   @Render('index')
-  @AllowAny()
+  @AllowJwtAny()
   home() {
     return {};
   }
 
   @Get('commanders')
   @Render('commanders')
-  @AllowAny()
+  @AllowJwtAny()
   commanders() {
     return {};
   }
 
   @Get('card-choices')
   @Render('card-choices')
-  @AllowAny()
+  @AllowJwtAny()
   cardChoices() {
     return {};
   }
 
   @Get('card-choices/:name')
   @Render('card-choices/[name]')
-  @AllowAny()
+  @AllowJwtAny()
   commanderAnalytics(@Param('name') name: string) {
     return { name };
   }

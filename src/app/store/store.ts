@@ -1,16 +1,34 @@
-import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { createWrapper } from 'next-redux-wrapper';
+import {
+  Action,
+  combineReducers,
+  configureStore,
+  ThunkAction,
+} from '@reduxjs/toolkit';
+import { createWrapper, HYDRATE, MakeStore } from 'next-redux-wrapper';
 
 import apiReducers, { middlewares } from './api';
 import dataReducers from './slices';
 
-export const makeReduxStore = (state = {}) =>
+const combinedReducer = combineReducers({
+  ...dataReducers,
+  ...apiReducers,
+});
+
+const reducer = (state: ReturnType<typeof combinedReducer>, action: any) => {
+  if (action.type === HYDRATE) {
+    const nextState = {
+      ...state,
+      ...action.payload,
+    };
+    return nextState;
+  } else {
+    return combinedReducer(state, action);
+  }
+};
+
+export const makeReduxStore: MakeStore<any> = () =>
   configureStore({
-    reducer: {
-      ...dataReducers,
-      ...apiReducers,
-    },
-    preloadedState: state,
+    reducer,
     middleware: base => base().concat(...middlewares),
     devTools: true,
   });

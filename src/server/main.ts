@@ -6,20 +6,26 @@ import {
   SwaggerDocumentOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 import { RenderService } from 'nest-next';
 
 import { PORT } from '~/shared/constants/env';
 
-import { TimingInterceptor } from '@server/application/interceptors/timing.interceptor';
 import { AnalyticsModule } from '@server/domain/analytics/analytics.module';
+import { AuthModule } from '@server/domain/auth/auth.module';
 import { CommandersModule } from '@server/domain/commanders/commanders.module';
+import { JwtInterceptor } from '@server/infrastructure/interceptors/jwt.interceptor';
+import { TimingInterceptor } from '@server/infrastructure/interceptors/timing.interceptor';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  app.use(cookieParser());
+
   app.useGlobalInterceptors(new TimingInterceptor());
+  app.useGlobalInterceptors(new JwtInterceptor());
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -35,7 +41,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const option: SwaggerDocumentOptions = {
-    include: [CommandersModule, AnalyticsModule],
+    include: [CommandersModule, AnalyticsModule, AuthModule],
     deepScanRoutes: true,
   };
   const document = SwaggerModule.createDocument(app, config, option);

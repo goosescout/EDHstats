@@ -1,5 +1,6 @@
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import {
+  Get,
   Body,
   Controller,
   HttpCode,
@@ -8,7 +9,6 @@ import {
   Query,
   UseInterceptors,
 } from '@nestjs/common';
-import { Get } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -19,7 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { AllowAny } from '@server/domain/auth/decorators/allowAny.decorator';
+import { AllowJwtAny } from '@server/domain/auth/decorators/allowAny.decorator';
 import { TTL_1_DAY } from '@server/infrastructure/constants';
 
 import { CardsDto } from './dtos/cards.dto';
@@ -63,7 +63,7 @@ export class AnalyticsController {
   })
   @ApiParam({
     name: 'name',
-    description: 'Commander name',
+    description: "Commander' name",
   })
   @ApiOkResponse({
     description: 'List of cards with their stats',
@@ -76,7 +76,7 @@ export class AnalyticsController {
   @Get('/:name/cards')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(TTL_1_DAY)
-  @AllowAny()
+  @AllowJwtAny()
   async getCards(
     @Param('name') name: string,
     @Query() tournamentParams: GetCardsParamsDto,
@@ -90,25 +90,25 @@ export class AnalyticsController {
   })
   @ApiParam({
     name: 'name',
-    description: 'Commander name',
+    description: "Commander' name",
   })
   @ApiBody({
     description: 'Lists of included and excluded cards',
     type: CardsDto,
   })
   @ApiOkResponse({
-    description: 'Commander stats with the specified cards',
+    description: "Commander's stats with the specified cards",
     type: CommanderStats,
   })
   @ApiNotFoundResponse({
-    description: 'Commander or one of the cards not found',
+    description: "Commander's or one of the cards not found",
   })
   @ApiBadRequestResponse({
     description: 'Some of the provided parameters are invalid',
   })
   @Post('/:name')
   @HttpCode(200)
-  @AllowAny()
+  @AllowJwtAny()
   async getCommanderStatsWithCards(
     @Param('name') name: string,
     @Query() tournamentParams: GetCommanderStatsDto,

@@ -29,7 +29,7 @@ const Commanders: FC<CommandersProps> = () => (
 export const getServerSideProps = wrapper.getServerSideProps<CommandersProps>(
   store => async context => {
     const start = Date.now();
-    const baseProps = parseBaseContext(context);
+    const baseProps = await parseBaseContext(context, store);
 
     const { filters } = store.getState();
 

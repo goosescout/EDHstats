@@ -5,6 +5,8 @@ import { compare } from 'bcrypt';
 
 import { UsersService } from '@server/domain/users/users.service';
 
+import { AccessToken } from './models/accessToken.model';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -19,7 +21,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: User) {
+  async login(user: User): Promise<AccessToken> {
     const payload = { username: user.username, sub: user.id };
     return {
       accessToken: this.jwtService.sign(payload),
