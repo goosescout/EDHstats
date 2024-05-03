@@ -4,7 +4,7 @@ import { TIMING_HEADER } from '~/shared/constants';
 
 import { setUser } from '@app/store/slices/common';
 
-import parseServerToken from './parseServerToken';
+import parseToken from './parseToken';
 import { BasePageProps } from './types';
 
 const parseBaseContext = async (
@@ -14,7 +14,7 @@ const parseBaseContext = async (
   const token = context.req.cookies.token;
   if (token) {
     const { username, sub } = token
-      ? parseServerToken(token)
+      ? parseToken(token)
       : { username: null, sub: null };
     await store.dispatch(setUser({ username, id: sub }));
   }

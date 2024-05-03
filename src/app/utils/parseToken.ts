@@ -1,4 +1,4 @@
-const parseToken = (token: string) => {
+const parseClientToken = (token: string) => {
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const jsonPayload = decodeURIComponent(
@@ -13,5 +13,13 @@ const parseToken = (token: string) => {
 
   return JSON.parse(jsonPayload);
 };
+
+const parseServerToken = (token: string) =>
+  JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+
+const parseToken = (token: string) =>
+  typeof window === 'undefined'
+    ? parseServerToken(token)
+    : parseClientToken(token);
 
 export default parseToken;
