@@ -11,7 +11,7 @@ export class UsersService {
     const user = await this.getUserByUsername(username);
     if (user) throw new Error('User already exists');
 
-    return await this.prisma.user.create({
+    return await this.prisma.client.user.create({
       data: {
         username,
         password,
@@ -20,7 +20,7 @@ export class UsersService {
   }
 
   async getUserByUsername(username: string): Promise<User | null> {
-    return await this.prisma.user.findFirst({
+    return await this.prisma.client.user.findFirst({
       where: {
         username,
       },

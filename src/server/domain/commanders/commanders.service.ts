@@ -47,7 +47,7 @@ export class CommandersService {
     sizeMax,
     topCut,
   }: GetCommandersParams): Promise<CommanderModel[]> {
-    const commanders = await this.prisma.commander.findMany({
+    const commanders = await this.prisma.client.commander.findMany({
       where: {
         decks: {
           some: {
@@ -89,7 +89,7 @@ export class CommandersService {
     topCut,
     name,
   }: GetCommanderParams): Promise<CommanderModel | null> {
-    const commander = await this.prisma.commander.findUnique({
+    const commander = await this.prisma.client.commander.findUnique({
       where: {
         name,
       },
@@ -113,7 +113,7 @@ export class CommandersService {
     topCut,
     commander,
   }: GetCommanderStatsParams): Promise<CommanderModel> {
-    const decks = await this.prisma.deck.findMany({
+    const decks = await this.prisma.client.deck.findMany({
       where: {
         commanderName: commander.name,
         date: {
@@ -175,7 +175,7 @@ export class CommandersService {
   }
 
   async getFavoriteCommanders(userId: number): Promise<CommanderBriefModel[]> {
-    return this.prisma.commander.findMany({
+    return this.prisma.client.commander.findMany({
       where: {
         favoritedBy: {
           some: {
@@ -187,7 +187,7 @@ export class CommandersService {
   }
 
   async toggleCommanderFavorite(name: string, userId: number) {
-    const commander = await this.prisma.commander.findUnique({
+    const commander = await this.prisma.client.commander.findUnique({
       where: {
         name,
       },
@@ -203,7 +203,7 @@ export class CommandersService {
     const isFavorite = commander?.favoritedBy.some(user => user.id === userId);
 
     if (isFavorite) {
-      await this.prisma.commander.update({
+      await this.prisma.client.commander.update({
         where: {
           name,
         },
@@ -216,7 +216,7 @@ export class CommandersService {
         },
       });
     } else {
-      await this.prisma.commander.update({
+      await this.prisma.client.commander.update({
         where: {
           name,
         },
@@ -232,11 +232,10 @@ export class CommandersService {
   }
 
   async searchCommanders(query: string): Promise<CommanderBriefModel[]> {
-    return this.prisma.commander.findMany({
+    return this.prisma.client.commander.findMany({
       where: {
         name: {
           contains: query,
-          mode: 'insensitive',
         },
       },
       select: {
@@ -252,7 +251,7 @@ export class CommandersService {
   }
 
   async getCommanderImages(name: string): Promise<string[] | null> {
-    const commander = await this.prisma.commander.findUnique({
+    const commander = await this.prisma.client.commander.findUnique({
       where: {
         name,
       },
@@ -311,7 +310,7 @@ export class CommandersService {
     current: number,
     total: number,
   ) {
-    const existingTournament = await this.prisma.tournament.findUnique({
+    const existingTournament = await this.prisma.client.tournament.findUnique({
       where: {
         id: tournament.TID,
       },
@@ -328,7 +327,7 @@ export class CommandersService {
     const date = new Date(tournament.dateCreated * 1000);
     const playersCount = tournament.standings.length;
 
-    await this.prisma.tournament.create({
+    await this.prisma.client.tournament.create({
       data: {
         id: tournament.TID,
         size: playersCount,
@@ -367,7 +366,7 @@ export class CommandersService {
       return;
     }
 
-    const existingDeck = await this.prisma.deck.findUnique({
+    const existingDeck = await this.prisma.client.deck.findUnique({
       where: {
         id: decklist.id,
       },
@@ -400,7 +399,7 @@ export class CommandersService {
       const winrate = player.wins / totalGames;
       const drawrate = player.draws / totalGames;
 
-      await this.prisma.commander.createMany({
+      await this.prisma.client.commander.createMany({
         data: [
           {
             name: commandersName,
@@ -410,12 +409,12 @@ export class CommandersService {
         skipDuplicates: true,
       });
 
-      await this.prisma.card.createMany({
+      await this.prisma.client.card.createMany({
         data: cards,
         skipDuplicates: true,
       });
 
-      await this.prisma.deck.create({
+      await this.prisma.client.deck.create({
         data: {
           id: decklist.id,
           tournamentId,
