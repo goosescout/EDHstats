@@ -45,7 +45,7 @@ const Home: FC<HomeProps> = () => {
       <div className={styles.main}>
         <div className={styles['main-wrapper']}>
           <div>
-            <h2>Welcome to world of stats!</h2>
+            <h2>Welcome to the world of stats!</h2>
 
             <p>
               The most profound EDH analysis tool. This website grants you
