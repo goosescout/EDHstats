@@ -42,7 +42,7 @@ export class AnalyticsService {
     sizeMax,
     topCut,
   }: GetAverageStatsParams): Promise<AverageStats> {
-    const average = await this.prisma.deck.aggregate({
+    const average = await this.prisma.client.deck.aggregate({
       where: {
         date: {
           gte: dateAfter,
@@ -76,7 +76,7 @@ export class AnalyticsService {
     sizeMax,
     topCut,
   }: GetCardsParams): Promise<CardModel[]> {
-    const cards = await this.prisma.card.findMany({
+    const cards = await this.prisma.client.card.findMany({
       where: {
         decks: {
           some: {
@@ -100,7 +100,7 @@ export class AnalyticsService {
       },
     });
 
-    const totalDecks = await this.prisma.deck.count({
+    const totalDecks = await this.prisma.client.deck.count({
       where: {
         commander: {
           name,
@@ -122,7 +122,7 @@ export class AnalyticsService {
 
     return await Promise.all(
       cards.map(async card => {
-        const stats = await this.prisma.deck.aggregate({
+        const stats = await this.prisma.client.deck.aggregate({
           where: {
             commander: {
               name,
@@ -171,7 +171,7 @@ export class AnalyticsService {
     included,
     excluded,
   }: GetCommanderStatsParams): Promise<CommanderStatsModel> {
-    const decks = await this.prisma.deck.findMany({
+    const decks = await this.prisma.client.deck.findMany({
       where: {
         commander: {
           name,

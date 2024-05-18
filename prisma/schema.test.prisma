@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../prisma/client-test"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./test.db"
+}
+
+model Card {
+  name     String @id
+  manacost String
+  decks    Deck[]
+}
+
+model Deck {
+  id    String @id
+  cards Card[]
+
+  wins   Int
+  losses Int
+  draws  Int
+  place  Int
+  date   DateTime
+  price  Float
+
+  winrate  Float
+  drawrate Float
+
+  commander     Commander @relation(fields: [commanderName], references: [name])
+  commanderName String
+
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId String
+}
+
+model Tournament {
+  id    String @id
+  size  Int
+  decks Deck[]
+}
+
+model Commander {
+  name        String @id
+  identity    String
+  decks       Deck[]
+  favoritedBy User[]
+}
+
+model User {
+  id                 Int         @id @default(autoincrement())
+  username           String      @unique
+  password           String
+  favoriteCommanders Commander[]
+}
